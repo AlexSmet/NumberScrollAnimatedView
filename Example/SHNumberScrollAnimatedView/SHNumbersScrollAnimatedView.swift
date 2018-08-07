@@ -21,7 +21,6 @@ class SHNumbersScrollAnimatedView: UIView {
 
     fileprivate let animationKey = "NumbersScrollAnimated"
     fileprivate var scrollLayers: [CAScrollLayer] = []
-    fileprivate var scrollLabels: [UILabel] = []
     fileprivate var numbersText: [String] = []
 
     public var value: Int = 0 {
@@ -61,7 +60,6 @@ class SHNumbersScrollAnimatedView: UIView {
 
         numbersText.removeAll()
         scrollLayers.removeAll()
-        scrollLabels.removeAll()
 
         createNumbersText()
         createScrollLayers()
@@ -110,23 +108,23 @@ class SHNumbersScrollAnimatedView: UIView {
 
         var height: CGFloat = 0
         textForScroll.forEach {
-            let textLabel = createLabel(withText: $0)
-            textLabel.frame = CGRect(x: 0, y: height, width: aLayer.frame.width, height: aLayer.frame.height)
-            aLayer.addSublayer(textLabel.layer)
-            scrollLabels.append(textLabel)
-            height = textLabel.frame.maxY
+            let textLayer = createTextLayer(withText: $0)
+            textLayer.frame = CGRect(x: 0, y: height, width: aLayer.frame.width, height: aLayer.frame.height)
+            aLayer.addSublayer(textLayer)
+            height = textLayer.frame.maxY
         }
     }
 
-    fileprivate func createLabel(withText: String) -> UILabel{
-        let label = UILabel()
+    fileprivate func createTextLayer(withText: String) -> CATextLayer {
+        let newLayer = CATextLayer()
 
-        label.textColor = textColor
-        label.font = font
-        label.textAlignment = .center
-        label.text = withText
+        newLayer.font = font
+        newLayer.fontSize = font.pointSize
+        newLayer.foregroundColor = textColor.cgColor
+        newLayer.alignmentMode = kCAAlignmentCenter
+        newLayer.string = withText
 
-        return label
+        return newLayer
     }
 
     fileprivate func createAnimations() {
