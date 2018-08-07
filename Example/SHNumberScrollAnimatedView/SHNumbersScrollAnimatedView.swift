@@ -1,3 +1,16 @@
+
+//
+//  SHNumbersScrollAnimatedView.swift
+//
+//
+//  Inspired by https://github.com/jonathantribouharet/JTNumberScrollAnimatedView
+//
+//  Created by Alexander Smetannikov on 07/08/2018.
+//  Copyright © 2018 Alexander Smetannikov. All rights reserved.
+//
+
+import UIKit
+
 class SHNumbersScrollAnimatedView: UIView {
 
     public var font: UIFont = UIFont.systemFont(ofSize: UIFont.systemFontSize)
