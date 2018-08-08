@@ -16,8 +16,14 @@ import UIKit
 //TODO: Add non-srollable thousandth separator
 
 class ScrollableColumn {
-    var duration: CFTimeInterval = 1.5
+    enum ScrollingDirection {
+        case up
+        case down
+    }
+
+    var duration: CFTimeInterval = 5
     var durationOffset: CFTimeInterval = 0.2
+    var scrollingDirection: ScrollingDirection = .down
 
     fileprivate var density: Int = 10
     fileprivate var scrollLayer: CAScrollLayer = CAScrollLayer()
@@ -30,7 +36,7 @@ class SHNumbersScrollAnimatedView: UIView {
     public var textColor: UIColor = .black
 
     fileprivate let animationKey = "NumbersScrollAnimated"
-    fileprivate var scrollableColumns: [ScrollableColumn] = []
+    private(set) var scrollableColumns: [ScrollableColumn] = []
 
     public var value: Int = 0 {
         didSet {
@@ -38,25 +44,11 @@ class SHNumbersScrollAnimatedView: UIView {
         }
     }
     public var minLength: Int = 0
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        commonInit()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-
-        commonInit()
-    }
-
-    fileprivate func commonInit() {
+    public func setValue(_ value: Int, animated: Bool) {
 
     }
 
     public func startAnimation() {
-        prepareAnimations()
         createAnimations()
     }
 
@@ -105,7 +97,7 @@ class SHNumbersScrollAnimatedView: UIView {
         let number = Int(numberText)!
         var textForScroll = [String]()
 
-        for index in 0..<(aColumn.density+1) {
+        for index in 0..<aColumn.density {
             textForScroll.append("\((number + index) % 10)")
         }
 
@@ -143,8 +135,13 @@ class SHNumbersScrollAnimatedView: UIView {
             animation.duration = duration + offset
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
 
-            animation.fromValue = -maxY
-            animation.toValue = 0
+            if column.scrollingDirection == .down {
+                animation.fromValue = -maxY
+                animation.toValue = 0
+            } else {
+                animation.fromValue = 0
+                animation.toValue = -maxY
+            }
 
             column.scrollLayer.add(animation, forKey: animationKey)
 

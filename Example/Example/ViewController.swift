@@ -19,6 +19,7 @@ class ViewController: UIViewController {
         animatedView.textColor = .white
         animatedView.value = 89
         animatedView.minLength = 2
+        animatedView.scrollableColumns[1].scrollingDirection = .up
     }
 
     @IBAction func onPushButton(_ sender: UIButton) {
