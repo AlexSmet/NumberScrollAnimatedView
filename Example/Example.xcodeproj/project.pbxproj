@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		552A8537211AC4A800CD2C2A /* SHNumbersScrollAnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552A8536211AC4A800CD2C2A /* SHNumbersScrollAnimatedView.swift */; };
 		55E9B6822119ED6C006F2770 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9B6812119ED6C006F2770 /* AppDelegate.swift */; };
 		55E9B6842119ED6C006F2770 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9B6832119ED6C006F2770 /* ViewController.swift */; };
 		55E9B6872119ED6C006F2770 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55E9B6852119ED6C006F2770 /* Main.storyboard */; };
 		55E9B6892119ED6F006F2770 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55E9B6882119ED6F006F2770 /* Assets.xcassets */; };
 		55E9B68C2119ED6F006F2770 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55E9B68A2119ED6F006F2770 /* LaunchScreen.storyboard */; };
-		55E9B697211A369B006F2770 /* SHNumbersScrollAnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9B696211A369B006F2770 /* SHNumbersScrollAnimatedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		552A8536211AC4A800CD2C2A /* SHNumbersScrollAnimatedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SHNumbersScrollAnimatedView.swift; path = ../SHNumbersScrollAnimatedView/SHNumbersScrollAnimatedView.swift; sourceTree = SOURCE_ROOT; };
 		55E9B67E2119ED6C006F2770 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55E9B6812119ED6C006F2770 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55E9B6832119ED6C006F2770 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -23,7 +24,6 @@
 		55E9B6882119ED6F006F2770 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55E9B68B2119ED6F006F2770 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		55E9B68D2119ED6F006F2770 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		55E9B696211A369B006F2770 /* SHNumbersScrollAnimatedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SHNumbersScrollAnimatedView.swift; path = ../../SHNumbersScrollAnimatedView/SHNumbersScrollAnimatedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +70,7 @@
 		55E9B6952119EE0B006F2770 /* SHNumberScrollAnimatedView */ = {
 			isa = PBXGroup;
 			children = (
-				55E9B696211A369B006F2770 /* SHNumbersScrollAnimatedView.swift */,
+				552A8536211AC4A800CD2C2A /* SHNumbersScrollAnimatedView.swift */,
 			);
 			path = SHNumberScrollAnimatedView;
 			sourceTree = "<group>";
@@ -148,7 +148,7 @@
 			files = (
 				55E9B6842119ED6C006F2770 /* ViewController.swift in Sources */,
 				55E9B6822119ED6C006F2770 /* AppDelegate.swift in Sources */,
-				55E9B697211A369B006F2770 /* SHNumbersScrollAnimatedView.swift in Sources */,
+				552A8537211AC4A800CD2C2A /* SHNumbersScrollAnimatedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,17 +11,26 @@
 
 import UIKit
 
+
+//TODO: Add method setValue(_ newValue: Integer
+//TODO: Add non-srollable thousandth separator
+
+class ScrollableColumn {
+    var duration: CFTimeInterval = 1.5
+    var durationOffset: CFTimeInterval = 0.2
+
+    fileprivate var density: Int = 10
+    fileprivate var scrollLayer: CAScrollLayer = CAScrollLayer()
+    fileprivate var digitCharacter: Character!
+}
+
 class SHNumbersScrollAnimatedView: UIView {
 
     public var font: UIFont = UIFont.systemFont(ofSize: UIFont.systemFontSize)
     public var textColor: UIColor = .black
-    public var duration: CFTimeInterval = 1.5
-    public var durationOffset: CFTimeInterval = 0.2
-    public var density: Int = 5
 
     fileprivate let animationKey = "NumbersScrollAnimated"
-    fileprivate var scrollLayers: [CAScrollLayer] = []
-    fileprivate var numbersText: [String] = []
+    fileprivate var scrollableColumns: [ScrollableColumn] = []
 
     public var value: Int = 0 {
         didSet {
@@ -52,55 +61,51 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 
     public func stopAnimation() {
-        scrollLayers.forEach { $0.removeAnimation(forKey: animationKey)}
+        scrollableColumns.forEach { $0.scrollLayer.removeAnimation(forKey: animationKey)}
     }
 
     fileprivate func prepareAnimations() {
-        scrollLayers.forEach { $0.removeFromSuperlayer() }
+        scrollableColumns.forEach { $0.scrollLayer.removeFromSuperlayer() }
+        scrollableColumns.removeAll()
 
-        numbersText.removeAll()
-        scrollLayers.removeAll()
-
-        createNumbersText()
-        createScrollLayers()
+        createScrollColumns()
     }
 
-    fileprivate func createNumbersText() {
+    fileprivate func createScrollColumns() {
         let textValue = "\(value)"
+        var numbersText: [String]
 
-        let additionalLength = minLength - textValue.count
-        if additionalLength > 0 {
-            numbersText = [String](repeating: "0", count: additionalLength)
+        let additionalDigits = minLength - textValue.count
+        if additionalDigits > 0 {
+            numbersText = [String](repeating: "0", count: additionalDigits)
         } else {
             numbersText = []
         }
 
         textValue.forEach { numbersText.append(String($0)) }
-    }
 
-    fileprivate func createScrollLayers() {
         let width: CGFloat = (frame.width / CGFloat(numbersText.count)).rounded()
         let height: CGFloat = frame.height
 
         for (index, _) in numbersText.enumerated() {
-            let newLayer = CAScrollLayer()
-            newLayer.frame = CGRect(x: CGFloat(index)*width , y: 0, width: width, height: height)
-            scrollLayers.append(newLayer)
-            layer.addSublayer(newLayer)
+            let newColumn = ScrollableColumn()
+            newColumn.scrollLayer.frame = CGRect(x: CGFloat(index)*width , y: 0, width: width, height: height)
+            scrollableColumns.append(newColumn)
+            layer.addSublayer(newColumn.scrollLayer)
         }
 
         for (index, _) in numbersText.enumerated() {
-            let aLayer = scrollLayers[index]
+            let aColumn = scrollableColumns[index]
             let numberText = numbersText[index]
-            createContentForLayer(aLayer, withNumberText: numberText)
+            createContentForColumn(aColumn, withNumberText: numberText)
         }
     }
 
-    fileprivate func createContentForLayer(_ aLayer: CAScrollLayer, withNumberText numberText: String) {
+    fileprivate func createContentForColumn(_ aColumn: ScrollableColumn, withNumberText numberText: String) {
         let number = Int(numberText)!
         var textForScroll = [String]()
 
-        for index in 0..<(density+1) {
+        for index in 0..<(aColumn.density+1) {
             textForScroll.append("\((number + index) % 10)")
         }
 
@@ -109,8 +114,8 @@ class SHNumbersScrollAnimatedView: UIView {
         var height: CGFloat = 0
         textForScroll.forEach {
             let textLayer = createTextLayer(withText: $0)
-            textLayer.frame = CGRect(x: 0, y: height, width: aLayer.frame.width, height: aLayer.frame.height)
-            aLayer.addSublayer(textLayer)
+            textLayer.frame = CGRect(x: 0, y: height, width: aColumn.scrollLayer.frame.width, height: aColumn.scrollLayer.frame.height)
+            aColumn.scrollLayer.addSublayer(textLayer)
             height = textLayer.frame.maxY
         }
     }
@@ -128,11 +133,11 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 
     fileprivate func createAnimations() {
-        let duration: CFTimeInterval = self.duration - CFTimeInterval(numbersText.count) * durationOffset
         var offset: CFTimeInterval = 0
 
-        for scrollLayer in scrollLayers {
-            let maxY: CGFloat = (scrollLayer.sublayers?.last?.frame.origin.y)!
+        for column in scrollableColumns {
+            let duration: CFTimeInterval = column.duration - CFTimeInterval(scrollableColumns.count) * column.durationOffset
+            let maxY: CGFloat = (column.scrollLayer.sublayers?.last?.frame.origin.y)!
 
             let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
             animation.duration = duration + offset
@@ -141,9 +146,9 @@ class SHNumbersScrollAnimatedView: UIView {
             animation.fromValue = -maxY
             animation.toValue = 0
 
-            scrollLayer.add(animation, forKey: animationKey)
+            column.scrollLayer.add(animation, forKey: animationKey)
 
-            offset += durationOffset
+            offset += column.durationOffset
         }
     }
 }
