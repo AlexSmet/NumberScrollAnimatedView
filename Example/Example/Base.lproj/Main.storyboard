@@ -19,11 +19,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="umB-Yw-0ul" customClass="SHNumbersScrollAnimatedView" customModule="Example" customModuleProvider="target">
-                                <rect key="frame" x="142" y="105" width="90" height="97"/>
+                                <rect key="frame" x="87" y="105" width="200" height="97"/>
                                 <color key="backgroundColor" red="1" green="0.1857388616" blue="0.57339501380000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="97" id="OtM-gJ-moO"/>
-                                    <constraint firstAttribute="width" constant="90" id="rEI-oG-7Sl"/>
+                                    <constraint firstAttribute="width" constant="200" id="rEI-oG-7Sl"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLa-Rt-q1c">

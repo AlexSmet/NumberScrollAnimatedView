@@ -17,12 +17,12 @@ class ViewController: UIViewController {
 
         animatedView.font = UIFont.boldSystemFont(ofSize: 72)
         animatedView.textColor = .white
-        animatedView.value = 89
-        animatedView.minLength = 2
-        animatedView.scrollableColumns[1].scrollingDirection = .up
+
     }
 
     @IBAction func onPushButton(_ sender: UIButton) {
+        animatedView.value = 5893
+        animatedView.scrollableColumns[1].scrollingDirection = .up
         animatedView.startAnimation()
     }
     
