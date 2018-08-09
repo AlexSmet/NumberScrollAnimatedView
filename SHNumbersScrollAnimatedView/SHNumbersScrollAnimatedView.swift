@@ -11,7 +11,7 @@
 
 import UIKit
 
-
+//TODO: Start animation with empty view
 //TODO: Add method setValue(_ newValue: Integer
 //TODO: Add non-srollable thousandth separator
 
@@ -24,6 +24,7 @@ class ScrollableColumn {
     var duration: CFTimeInterval = 5
     var durationOffset: CFTimeInterval = 0.2
     var scrollingDirection: ScrollingDirection = .down
+    var inverseSequence: Bool = false
 
     fileprivate var density: Int = 10
     fileprivate var scrollLayer: CAScrollLayer = CAScrollLayer()
@@ -102,6 +103,10 @@ class SHNumbersScrollAnimatedView: UIView {
         }
 
         textForScroll.append(numberText)
+
+        if aColumn.inverseSequence {
+            textForScroll.reverse()
+        }
 
         var height: CGFloat = 0
         textForScroll.forEach {
