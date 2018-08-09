@@ -26,7 +26,6 @@ class ScrollableColumn {
     var scrollingDirection: ScrollingDirection = .down
     var inverseSequence: Bool = false
 
-    fileprivate var density: Int = 10
     fileprivate var scrollLayer: CAScrollLayer = CAScrollLayer()
     fileprivate var digitCharacter: Character!
 }
@@ -41,15 +40,19 @@ class SHNumbersScrollAnimatedView: UIView {
 
     public var value: Int = 0 {
         didSet {
+            numbersText.removeAll()
+            "\(value)".forEach { numbersText.append(String($0)) }
             prepareAnimations()
         }
     }
+    private var numbersText: [String] = [] // get only
     public var minLength: Int = 0
     public func setValue(_ value: Int, animated: Bool) {
 
     }
 
     public func startAnimation() {
+        createContentForColumns()
         createAnimations()
     }
 
@@ -65,18 +68,6 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 
     fileprivate func createScrollColumns() {
-        let textValue = "\(value)"
-        var numbersText: [String]
-
-        let additionalDigits = minLength - textValue.count
-        if additionalDigits > 0 {
-            numbersText = [String](repeating: "0", count: additionalDigits)
-        } else {
-            numbersText = []
-        }
-
-        textValue.forEach { numbersText.append(String($0)) }
-
         let width: CGFloat = (frame.width / CGFloat(numbersText.count)).rounded()
         let height: CGFloat = frame.height
 
@@ -86,7 +77,9 @@ class SHNumbersScrollAnimatedView: UIView {
             scrollableColumns.append(newColumn)
             layer.addSublayer(newColumn.scrollLayer)
         }
+    }
 
+    fileprivate func createContentForColumns() {
         for (index, _) in numbersText.enumerated() {
             let aColumn = scrollableColumns[index]
             let numberText = numbersText[index]
@@ -98,22 +91,67 @@ class SHNumbersScrollAnimatedView: UIView {
         let number = Int(numberText)!
         var textForScroll = [String]()
 
-        for index in 0..<aColumn.density {
-            textForScroll.append("\((number + index) % 10)")
+        var firstNumber: Int
+        var lastNumber: Int
+        var by: Int = 1
+
+        // Scrolling starts from 0, by default. But when a target value is 0, than we can start scrolling from 1 or 9 (depends on the values of scrollingDirection and inverseSequence)
+        switch aColumn.scrollingDirection {
+        case .up:
+            lastNumber = number
+            if aColumn.inverseSequence {
+                by = -1
+                firstNumber = 10
+                if number == 0 {
+                    firstNumber = 9
+                }
+            } else {
+                firstNumber = 0
+                if number == 0 {
+                    firstNumber = 1
+                    lastNumber = 10
+                }
+            }
+        case .down:
+            firstNumber = number
+            if aColumn.inverseSequence {
+                by = -1
+                lastNumber = 0
+                if number == 0 {
+                    firstNumber = 10
+                    lastNumber = 1
+                }
+
+            } else {
+                lastNumber = 10
+                if number == 0 {
+                    lastNumber = 9
+                }
+            }
         }
 
-        textForScroll.append(numberText)
-
-        if aColumn.inverseSequence {
-            textForScroll.reverse()
+        for i in stride(from: firstNumber, through: lastNumber, by: by) {
+            textForScroll.append("\(i%10)")
         }
+
 
         var height: CGFloat = 0
-        textForScroll.forEach {
-            let textLayer = createTextLayer(withText: $0)
-            textLayer.frame = CGRect(x: 0, y: height, width: aColumn.scrollLayer.frame.width, height: aColumn.scrollLayer.frame.height)
-            aColumn.scrollLayer.addSublayer(textLayer)
-            height = textLayer.frame.maxY
+        aColumn.scrollLayer.sublayers?.removeAll()
+        switch aColumn.scrollingDirection {
+        case .down:
+            textForScroll.forEach {
+                let textLayer = createTextLayer(withText: $0)
+                textLayer.frame = CGRect(x: 0, y: height, width: aColumn.scrollLayer.frame.width, height: aColumn.scrollLayer.frame.height)
+                aColumn.scrollLayer.addSublayer(textLayer)
+                height = textLayer.frame.maxY
+            }
+        case .up:
+            for text in textForScroll.reversed() {
+                let textLayer = createTextLayer(withText: text)
+                textLayer.frame = CGRect(x: 0, y: height, width: aColumn.scrollLayer.frame.width, height: aColumn.scrollLayer.frame.height)
+                aColumn.scrollLayer.addSublayer(textLayer)
+                height = textLayer.frame.minY - aColumn.scrollLayer.frame.height
+            }
         }
     }
 
@@ -133,20 +171,15 @@ class SHNumbersScrollAnimatedView: UIView {
         var offset: CFTimeInterval = 0
 
         for column in scrollableColumns {
-            let duration: CFTimeInterval = column.duration - CFTimeInterval(scrollableColumns.count) * column.durationOffset
             let maxY: CGFloat = (column.scrollLayer.sublayers?.last?.frame.origin.y)!
 
             let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
-            animation.duration = duration + offset
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            animation.duration = column.duration //duration + offset
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
 
-            if column.scrollingDirection == .down {
-                animation.fromValue = -maxY
-                animation.toValue = 0
-            } else {
-                animation.fromValue = 0
-                animation.toValue = -maxY
-            }
+            let startOffsetY =  column.scrollLayer.frame.height * (column.scrollingDirection == .up ? 1 : -1)
+            animation.fromValue = -maxY + startOffsetY
+            animation.toValue = 0
 
             column.scrollLayer.add(animation, forKey: animationKey)
 
