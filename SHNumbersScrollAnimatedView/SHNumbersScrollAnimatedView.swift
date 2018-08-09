@@ -11,7 +11,6 @@
 
 import UIKit
 
-//TODO: Start animation with empty view
 //TODO: Add method setValue(_ newValue: Integer
 //TODO: Add non-srollable thousandth separator
 
@@ -134,24 +133,21 @@ class SHNumbersScrollAnimatedView: UIView {
             textForScroll.append("\(i%10)")
         }
 
-
         var height: CGFloat = 0
         aColumn.scrollLayer.sublayers?.removeAll()
+
         switch aColumn.scrollingDirection {
         case .down:
-            textForScroll.forEach {
-                let textLayer = createTextLayer(withText: $0)
-                textLayer.frame = CGRect(x: 0, y: height, width: aColumn.scrollLayer.frame.width, height: aColumn.scrollLayer.frame.height)
-                aColumn.scrollLayer.addSublayer(textLayer)
-                height = textLayer.frame.maxY
-            }
+            height = 0
         case .up:
-            for text in textForScroll.reversed() {
-                let textLayer = createTextLayer(withText: text)
-                textLayer.frame = CGRect(x: 0, y: height, width: aColumn.scrollLayer.frame.width, height: aColumn.scrollLayer.frame.height)
-                aColumn.scrollLayer.addSublayer(textLayer)
-                height = textLayer.frame.minY - aColumn.scrollLayer.frame.height
-            }
+            height = -aColumn.scrollLayer.frame.height * CGFloat(textForScroll.count-1)
+        }
+
+        textForScroll.forEach {
+            let textLayer = createTextLayer(withText: $0)
+            textLayer.frame = CGRect(x: 0, y: height, width: aColumn.scrollLayer.frame.width, height: aColumn.scrollLayer.frame.height)
+            aColumn.scrollLayer.addSublayer(textLayer)
+            height += aColumn.scrollLayer.frame.height
         }
     }
 
@@ -171,14 +167,19 @@ class SHNumbersScrollAnimatedView: UIView {
         var offset: CFTimeInterval = 0
 
         for column in scrollableColumns {
-            let maxY: CGFloat = (column.scrollLayer.sublayers?.last?.frame.origin.y)!
-
             let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
             animation.duration = column.duration //duration + offset
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
 
-            let startOffsetY =  column.scrollLayer.frame.height * (column.scrollingDirection == .up ? 1 : -1)
-            animation.fromValue = -maxY + startOffsetY
+            let startOffsetY =  column.scrollLayer.frame.height
+            switch column.scrollingDirection {
+            case .down:
+                let maxY: CGFloat = (column.scrollLayer.sublayers?.last?.frame.origin.y)!
+                animation.fromValue = -maxY - startOffsetY
+            case .up:
+                let minY: CGFloat = (column.scrollLayer.sublayers?.first?.frame.origin.y)!
+                animation.fromValue = -minY + startOffsetY
+            }
             animation.toValue = 0
 
             column.scrollLayer.add(animation, forKey: animationKey)
