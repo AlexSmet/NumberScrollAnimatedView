@@ -11,19 +11,17 @@
 
 import UIKit
 
-//TODO: Add method setValue(_ newValue: Integer
-//TODO: Add non-srollable thousandth separator
+enum ScrollingDirection {
+    case up
+    case down
+}
 
 class ScrollableColumn {
-    enum ScrollingDirection {
-        case up
-        case down
-    }
-
+    var symbol: String = ""
     private var font: UIFont
     private var textColor: UIColor
     var duration: CFTimeInterval = 5
-    var timeOffset: CFTimeInterval = 0.2
+    var timeOffset: CFTimeInterval = 0
     var scrollingDirection: ScrollingDirection = .down
     var inverseSequence: Bool = false
 
@@ -34,12 +32,24 @@ class ScrollableColumn {
     init(withFrame frame: CGRect, forLayer superLayer: CALayer, font: UIFont, textColor: UIColor) {
         self.font = font
         self.textColor = textColor
+
         scrollLayer = CAScrollLayer()
         scrollLayer.frame = frame
         superLayer.addSublayer(scrollLayer)
     }
 
-    func addBeginAnimation() {
+    func createAnimation(duration: CFTimeInterval, timeOffset: CFTimeInterval, scrollingDirection: ScrollingDirection, inverseSequence: Bool = false) {
+        self.duration = duration
+        self.timeOffset = timeOffset
+        self.scrollingDirection = scrollingDirection
+        self.inverseSequence = inverseSequence
+
+        createContent(withNumberText: symbol)
+        addBeginAnimation()
+        addMainAnimation()
+    }
+
+    private func addBeginAnimation() {
         let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
         animation.duration = timeOffset
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
@@ -49,7 +59,7 @@ class ScrollableColumn {
         scrollLayer.add(animation, forKey: animationKey + ".clearing")
     }
 
-    func addMainAnimation() {
+    private func addMainAnimation() {
         let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
         animation.beginTime = CACurrentMediaTime() + timeOffset
         animation.duration = duration
@@ -84,7 +94,7 @@ class ScrollableColumn {
         scrollLayer.removeFromSuperlayer()
     }
 
-    fileprivate func createContent(withNumberText numberText: String) {
+    private func createContent(withNumberText numberText: String) {
         let number = Int(numberText)!
         var textForScroll = [String]()
 
@@ -164,38 +174,62 @@ class ScrollableColumn {
 
 class SHNumbersScrollAnimatedView: UIView {
 
-    public var font: UIFont = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-    public var textColor: UIColor = .black
-
-    private(set) var scrollableColumns: [ScrollableColumn] = []
-
     public var value: Int = 0 {
         didSet {
             numbersText.removeAll()
             "\(value)".forEach { numbersText.append(String($0)) }
-            prepareAnimations()
         }
     }
-    private var numbersText: [String] = [] // get only
-    public var minLength: Int = 0
+    private var numbersText: [String] = []
+
+    public var font: UIFont = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+    public var textColor: UIColor = .black
+
+    public var animationDuration: CFTimeInterval = 5 {
+        didSet {
+            scrollableColumns.forEach { $0.duration = animationDuration }
+        }
+    }
+
+    var timeOffsetSetter: (() -> CFTimeInterval)!
+    var scrollingDirectionSetter: (() -> ScrollingDirection)!
+    var inverseSequenceSetter: (() -> Bool)!
+    private var scrollableColumns: [ScrollableColumn] = []
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+
+    private func commonInit() {
+        timeOffsetSetter = SHNumbersScrollAnimatedView.randomTimeOffsetSetter
+        scrollingDirectionSetter = SHNumbersScrollAnimatedView.randomDirection
+        inverseSequenceSetter = SHNumbersScrollAnimatedView.randomInverse
+    }
+
     public func setValue(_ value: Int, animated: Bool) {
 
     }
 
     public func startAnimation() {
-        createContentForColumns()
+        prepareAnimation()
         createAnimations()
     }
 
-    public func stopAnimation() {
-        scrollableColumns.forEach { $0.removeAllAnimations() }
-    }
-
-    fileprivate func prepareAnimations() {
+    private func prepareAnimation() {
         scrollableColumns.forEach { $0.removeFromSuperlayer() }
         scrollableColumns.removeAll()
 
         createScrollColumns()
+    }
+
+    public func stopAnimation() {
+        scrollableColumns.forEach { $0.removeAllAnimations() }
     }
 
     fileprivate func createScrollColumns() {
@@ -205,22 +239,42 @@ class SHNumbersScrollAnimatedView: UIView {
         for (index, _) in numbersText.enumerated() {
             let newColumnFrame = CGRect(x: CGFloat(index)*width , y: 0, width: width, height: height)
             let newColumn = ScrollableColumn(withFrame: newColumnFrame, forLayer: layer, font: font, textColor: textColor)
+            newColumn.symbol = numbersText[index]
             scrollableColumns.append(newColumn)
         }
     }
 
-    fileprivate func createContentForColumns() {
-        for (index, _) in numbersText.enumerated() {
-            let aColumn = scrollableColumns[index]
-            let numberText = numbersText[index]
-            aColumn.createContent(withNumberText: numberText)
+    fileprivate func createAnimations() {
+        scrollableColumns.forEach {
+            $0.createAnimation(
+                duration: animationDuration,
+                timeOffset: timeOffsetSetter(),
+                scrollingDirection: scrollingDirectionSetter(),
+                inverseSequence: inverseSequenceSetter())
+        }
+    }
+}
+
+extension SHNumbersScrollAnimatedView {
+
+    static func randomTimeOffsetSetter() -> CFTimeInterval {
+        return drand48()
+    }
+
+    static func randomDirection() -> ScrollingDirection {
+        if arc4random_uniform(3) == 0 {
+            return .down
+        } else {
+            return .up
         }
     }
 
-    fileprivate func createAnimations() {
-        for column in scrollableColumns.sorted(by: { $0.timeOffset > $1.timeOffset }) {
-            column.addBeginAnimation()
-            column.addMainAnimation()
+    static func randomInverse() -> Bool {
+        let randomValue = arc4random_uniform(10)
+        if  randomValue < 4  {
+            return true
+        } else {
+            return false
         }
     }
 }
