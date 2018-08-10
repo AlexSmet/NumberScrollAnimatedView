@@ -15,16 +15,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        animatedView.font = UIFont.boldSystemFont(ofSize: 72)
+        animatedView.font = UIFont.boldSystemFont(ofSize: 64)
         animatedView.textColor = .white
-
     }
 
     @IBAction func onPushButton(_ sender: UIButton) {
-        animatedView.value = 220548
-        animatedView.animationDuration = 2.5
-        animatedView.scrollingDirectionSetter = { return ScrollingDirection.down }
-        animatedView.inverseSequenceSetter = { return false }
+        animatedView.value = "220-548"
+        animatedView.animationDuration = 5
+//        animatedView.scrollingDirectionSetter = { return ScrollingDirection.down }
+//        animatedView.inverseSequenceSetter = { return false }
         animatedView.startAnimation()
     }
 }

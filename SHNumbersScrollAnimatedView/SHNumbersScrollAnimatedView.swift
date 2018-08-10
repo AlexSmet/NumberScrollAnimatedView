@@ -17,7 +17,7 @@ enum ScrollingDirection {
 }
 
 class ScrollableColumn {
-    var symbol: String = ""
+    var symbol: Character = Character("0")
     private var font: UIFont
     private var textColor: UIColor
     var timeOffset: CFTimeInterval = 0
@@ -27,7 +27,7 @@ class ScrollableColumn {
     var inverseSequence: Bool = false
 
     let animationKey = "NumbersScrollAnimated"
-    private var scrollLayer: CAScrollLayer
+    fileprivate var scrollLayer: CAScrollLayer
     private var digitCharacter: Character!
 
     init(withFrame frame: CGRect, forLayer superLayer: CALayer, font: UIFont, textColor: UIColor) {
@@ -46,9 +46,13 @@ class ScrollableColumn {
         self.scrollingDirection = scrollingDirection
         self.inverseSequence = inverseSequence
 
-        createContent(withNumberText: symbol)
-        addBeginAnimation()
-        addMainAnimation()
+        if let _ = Int(String(symbol)) {
+            createContent(numericalSymbol: symbol)
+            addBeginAnimation()
+            addMainAnimation()
+        } else {
+            createContent(nonNumericalSymbol: symbol)
+        }
     }
 
     private func addBeginAnimation() {
@@ -96,8 +100,14 @@ class ScrollableColumn {
         scrollLayer.removeFromSuperlayer()
     }
 
-    private func createContent(withNumberText numberText: String) {
-        let number = Int(numberText)!
+    private func createContent(nonNumericalSymbol: Character) {
+        let textLayer = createTextLayer(withText: String(nonNumericalSymbol))
+        textLayer.frame = CGRect(x: 0, y: 0, width: scrollLayer.frame.width, height: scrollLayer.frame.height)
+        scrollLayer.addSublayer(textLayer)
+    }
+
+    private func createContent(numericalSymbol: Character) {
+        let number = Int(String(numericalSymbol))!
         var textForScroll = [String]()
 
         var firstNumber: Int
@@ -176,13 +186,7 @@ class ScrollableColumn {
 
 class SHNumbersScrollAnimatedView: UIView {
 
-    public var value: Int = 0 {
-        didSet {
-            numbersText.removeAll()
-            "\(value)".forEach { numbersText.append(String($0)) }
-        }
-    }
-    private var numbersText: [String] = []
+    public var value: String = ""
 
     public var font: UIFont = UIFont.systemFont(ofSize: UIFont.systemFontSize)
     public var textColor: UIColor = .black
@@ -237,15 +241,28 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 
     fileprivate func createScrollColumns() {
-        let width: CGFloat = (frame.width / CGFloat(numbersText.count)).rounded()
         let height: CGFloat = frame.height
 
-        for (index, _) in numbersText.enumerated() {
-            let newColumnFrame = CGRect(x: CGFloat(index)*width , y: 0, width: width, height: height)
+        let numericSymbolWidth = String.numericSymbolsMaxWidth(usingFont: font)
+        var width: CGFloat
+        var xPosition: CGFloat = 0
+        for character in value {
+            if let _ = Int(String(character)) {
+                width = numericSymbolWidth
+            } else {
+                width = String(character).width(usingFont: font)
+            }
+
+            let newColumnFrame = CGRect(x: xPosition , y: 0, width: width, height: height)
             let newColumn = ScrollableColumn(withFrame: newColumnFrame, forLayer: layer, font: font, textColor: textColor)
-            newColumn.symbol = numbersText[index]
+            newColumn.symbol = character
             scrollableColumns.append(newColumn)
+
+            xPosition += width
         }
+
+        let xOffset = (layer.bounds.width - xPosition) / 2.0
+        scrollableColumns.forEach { $0.scrollLayer.position.x += xOffset }
     }
 
     fileprivate func createAnimations() {
@@ -289,5 +306,15 @@ extension String {
         let fontAttributes = [NSAttributedStringKey.font: font]
         let size = self.size(withAttributes: fontAttributes)
         return size.width
+    }
+
+    static func numericSymbolsMaxWidth(usingFont font: UIFont) -> CGFloat {
+        var maxWidth:CGFloat = 0
+
+        for symbol in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] {
+            maxWidth = Swift.max(maxWidth, symbol.width(usingFont: font))
+        }
+
+        return maxWidth
     }
 }
