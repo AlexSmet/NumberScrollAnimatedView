@@ -20,13 +20,146 @@ class ScrollableColumn {
         case down
     }
 
+    private var font: UIFont
+    private var textColor: UIColor
     var duration: CFTimeInterval = 5
     var timeOffset: CFTimeInterval = 0.2
     var scrollingDirection: ScrollingDirection = .down
     var inverseSequence: Bool = false
 
-    fileprivate var scrollLayer: CAScrollLayer = CAScrollLayer()
-    fileprivate var digitCharacter: Character!
+    let animationKey = "NumbersScrollAnimated"
+    private var scrollLayer: CAScrollLayer
+    private var digitCharacter: Character!
+
+    init(withFrame frame: CGRect, forLayer superLayer: CALayer, font: UIFont, textColor: UIColor) {
+        self.font = font
+        self.textColor = textColor
+        scrollLayer = CAScrollLayer()
+        scrollLayer.frame = frame
+        superLayer.addSublayer(scrollLayer)
+    }
+
+    func addBeginAnimation() {
+        let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
+        animation.duration = timeOffset
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.fromValue = getStartPositionYForAnimation()
+        animation.toValue = (animation.fromValue as! CGFloat)
+
+        scrollLayer.add(animation, forKey: animationKey + ".clearing")
+    }
+
+    func addMainAnimation() {
+        let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
+        animation.beginTime = CACurrentMediaTime() + timeOffset
+        animation.duration = duration
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.fromValue = getStartPositionYForAnimation()
+        animation.toValue = 0
+
+        scrollLayer.add(animation, forKey: animationKey)
+    }
+
+    private func getStartPositionYForAnimation() -> CGFloat {
+        var result: CGFloat
+
+        let startOffsetY =  scrollLayer.frame.height
+        switch scrollingDirection {
+        case .down:
+            let maxY: CGFloat = (scrollLayer.sublayers?.last?.frame.origin.y)!
+            result  = -maxY - startOffsetY
+        case .up:
+            let minY: CGFloat = (scrollLayer.sublayers?.first?.frame.origin.y)!
+            result = -minY + startOffsetY
+        }
+
+        return result
+    }
+
+    func removeAllAnimations() {
+        scrollLayer.removeAllAnimations()
+    }
+
+    func removeFromSuperlayer() {
+        scrollLayer.removeFromSuperlayer()
+    }
+
+    fileprivate func createContent(withNumberText numberText: String) {
+        let number = Int(numberText)!
+        var textForScroll = [String]()
+
+        var firstNumber: Int
+        var lastNumber: Int
+        var by: Int = 1
+
+        // Scrolling starts from 0, by default. But when a target value is 0, than we can start scrolling from 1 or 9 (depends on the values of scrollingDirection and inverseSequence)
+        switch scrollingDirection {
+        case .up:
+            lastNumber = number
+            if inverseSequence {
+                by = -1
+                firstNumber = 10
+                if number == 0 {
+                    firstNumber = 9
+                }
+            } else {
+                firstNumber = 0
+                if number == 0 {
+                    firstNumber = 1
+                    lastNumber = 10
+                }
+            }
+        case .down:
+            firstNumber = number
+            if inverseSequence {
+                by = -1
+                lastNumber = 0
+                if number == 0 {
+                    firstNumber = 10
+                    lastNumber = 1
+                }
+
+            } else {
+                lastNumber = 10
+                if number == 0 {
+                    lastNumber = 9
+                }
+            }
+        }
+
+        for i in stride(from: firstNumber, through: lastNumber, by: by) {
+            textForScroll.append("\(i%10)")
+        }
+
+        var height: CGFloat = 0
+        scrollLayer.sublayers?.removeAll()
+
+        switch scrollingDirection {
+        case .down:
+            height = 0
+        case .up:
+            height = -scrollLayer.frame.height * CGFloat(textForScroll.count-1)
+        }
+
+        textForScroll.forEach {
+            let textLayer = createTextLayer(withText: $0)
+            textLayer.frame = CGRect(x: 0, y: height, width: scrollLayer.frame.width, height: scrollLayer.frame.height)
+            scrollLayer.addSublayer(textLayer)
+            height += scrollLayer.frame.height
+        }
+    }
+
+    private func createTextLayer(withText: String) -> CATextLayer {
+        let newLayer = CATextLayer()
+
+        newLayer.font = font
+        newLayer.fontSize = font.pointSize
+        newLayer.foregroundColor = textColor.cgColor
+        newLayer.alignmentMode = kCAAlignmentCenter
+        newLayer.string = withText
+
+        return newLayer
+    }
 }
 
 class SHNumbersScrollAnimatedView: UIView {
@@ -34,7 +167,6 @@ class SHNumbersScrollAnimatedView: UIView {
     public var font: UIFont = UIFont.systemFont(ofSize: UIFont.systemFontSize)
     public var textColor: UIColor = .black
 
-    fileprivate let animationKey = "NumbersScrollAnimated"
     private(set) var scrollableColumns: [ScrollableColumn] = []
 
     public var value: Int = 0 {
@@ -56,11 +188,11 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 
     public func stopAnimation() {
-        scrollableColumns.forEach { $0.scrollLayer.removeAnimation(forKey: animationKey)}
+        scrollableColumns.forEach { $0.removeAllAnimations() }
     }
 
     fileprivate func prepareAnimations() {
-        scrollableColumns.forEach { $0.scrollLayer.removeFromSuperlayer() }
+        scrollableColumns.forEach { $0.removeFromSuperlayer() }
         scrollableColumns.removeAll()
 
         createScrollColumns()
@@ -71,10 +203,9 @@ class SHNumbersScrollAnimatedView: UIView {
         let height: CGFloat = frame.height
 
         for (index, _) in numbersText.enumerated() {
-            let newColumn = ScrollableColumn()
-            newColumn.scrollLayer.frame = CGRect(x: CGFloat(index)*width , y: 0, width: width, height: height)
+            let newColumnFrame = CGRect(x: CGFloat(index)*width , y: 0, width: width, height: height)
+            let newColumn = ScrollableColumn(withFrame: newColumnFrame, forLayer: layer, font: font, textColor: textColor)
             scrollableColumns.append(newColumn)
-            layer.addSublayer(newColumn.scrollLayer)
         }
     }
 
@@ -82,129 +213,15 @@ class SHNumbersScrollAnimatedView: UIView {
         for (index, _) in numbersText.enumerated() {
             let aColumn = scrollableColumns[index]
             let numberText = numbersText[index]
-            createContentForColumn(aColumn, withNumberText: numberText)
+            aColumn.createContent(withNumberText: numberText)
         }
-    }
-
-    fileprivate func createContentForColumn(_ aColumn: ScrollableColumn, withNumberText numberText: String) {
-        let number = Int(numberText)!
-        var textForScroll = [String]()
-
-        var firstNumber: Int
-        var lastNumber: Int
-        var by: Int = 1
-
-        // Scrolling starts from 0, by default. But when a target value is 0, than we can start scrolling from 1 or 9 (depends on the values of scrollingDirection and inverseSequence)
-        switch aColumn.scrollingDirection {
-        case .up:
-            lastNumber = number
-            if aColumn.inverseSequence {
-                by = -1
-                firstNumber = 10
-                if number == 0 {
-                    firstNumber = 9
-                }
-            } else {
-                firstNumber = 0
-                if number == 0 {
-                    firstNumber = 1
-                    lastNumber = 10
-                }
-            }
-        case .down:
-            firstNumber = number
-            if aColumn.inverseSequence {
-                by = -1
-                lastNumber = 0
-                if number == 0 {
-                    firstNumber = 10
-                    lastNumber = 1
-                }
-
-            } else {
-                lastNumber = 10
-                if number == 0 {
-                    lastNumber = 9
-                }
-            }
-        }
-
-        for i in stride(from: firstNumber, through: lastNumber, by: by) {
-            textForScroll.append("\(i%10)")
-        }
-
-        var height: CGFloat = 0
-        aColumn.scrollLayer.sublayers?.removeAll()
-
-        switch aColumn.scrollingDirection {
-        case .down:
-            height = 0
-        case .up:
-            height = -aColumn.scrollLayer.frame.height * CGFloat(textForScroll.count-1)
-        }
-
-        textForScroll.forEach {
-            let textLayer = createTextLayer(withText: $0)
-            textLayer.frame = CGRect(x: 0, y: height, width: aColumn.scrollLayer.frame.width, height: aColumn.scrollLayer.frame.height)
-            aColumn.scrollLayer.addSublayer(textLayer)
-            height += aColumn.scrollLayer.frame.height
-        }
-    }
-
-    fileprivate func createTextLayer(withText: String) -> CATextLayer {
-        let newLayer = CATextLayer()
-
-        newLayer.font = font
-        newLayer.fontSize = font.pointSize
-        newLayer.foregroundColor = textColor.cgColor
-        newLayer.alignmentMode = kCAAlignmentCenter
-        newLayer.string = withText
-
-        return newLayer
     }
 
     fileprivate func createAnimations() {
         for column in scrollableColumns.sorted(by: { $0.timeOffset > $1.timeOffset }) {
-            createBeginAnimationForColumn(column)
-            createMainAnimationForColumn(column)
+            column.addBeginAnimation()
+            column.addMainAnimation()
         }
-    }
-
-    fileprivate func createBeginAnimationForColumn(_ column: ScrollableColumn) {
-        let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
-        animation.duration = column.timeOffset
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        animation.fromValue = getStartPositionYForAnimation(column: column)
-        animation.toValue = (animation.fromValue as! CGFloat)
-
-        column.scrollLayer.add(animation, forKey: animationKey + ".clearing")
-    }
-
-    fileprivate func createMainAnimationForColumn(_ column: ScrollableColumn) {
-        let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
-        animation.beginTime = CACurrentMediaTime() + column.timeOffset
-        animation.duration = column.duration
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        animation.fromValue = getStartPositionYForAnimation(column: column)
-        animation.toValue = 0
-
-        column.scrollLayer.add(animation, forKey: animationKey)
-    }
-
-    fileprivate func getStartPositionYForAnimation(column : ScrollableColumn) -> CGFloat {
-        var result: CGFloat
-
-        let startOffsetY =  column.scrollLayer.frame.height
-        switch column.scrollingDirection {
-        case .down:
-            let maxY: CGFloat = (column.scrollLayer.sublayers?.last?.frame.origin.y)!
-            result  = -maxY - startOffsetY
-        case .up:
-            let minY: CGFloat = (column.scrollLayer.sublayers?.first?.frame.origin.y)!
-            result = -minY + startOffsetY
-        }
-
-        return result
     }
 }
 
