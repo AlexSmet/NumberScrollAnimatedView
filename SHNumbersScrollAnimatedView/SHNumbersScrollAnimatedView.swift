@@ -20,8 +20,9 @@ class ScrollableColumn {
     var symbol: String = ""
     private var font: UIFont
     private var textColor: UIColor
-    var duration: CFTimeInterval = 5
     var timeOffset: CFTimeInterval = 0
+    var duration: CFTimeInterval = 5
+    var durationOffset: CFTimeInterval = 0
     var scrollingDirection: ScrollingDirection = .down
     var inverseSequence: Bool = false
 
@@ -38,9 +39,10 @@ class ScrollableColumn {
         superLayer.addSublayer(scrollLayer)
     }
 
-    func createAnimation(duration: CFTimeInterval, timeOffset: CFTimeInterval, scrollingDirection: ScrollingDirection, inverseSequence: Bool = false) {
-        self.duration = duration
+    func createAnimation(timeOffset: CFTimeInterval, duration: CFTimeInterval, durationOffset: CFTimeInterval, scrollingDirection: ScrollingDirection, inverseSequence: Bool = false) {
         self.timeOffset = timeOffset
+        self.duration = duration
+        self.durationOffset = durationOffset
         self.scrollingDirection = scrollingDirection
         self.inverseSequence = inverseSequence
 
@@ -62,7 +64,7 @@ class ScrollableColumn {
     private func addMainAnimation() {
         let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
         animation.beginTime = CACurrentMediaTime() + timeOffset
-        animation.duration = duration
+        animation.duration = duration - durationOffset
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         animation.fromValue = getStartPositionYForAnimation()
         animation.toValue = 0
@@ -192,6 +194,7 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 
     var timeOffsetSetter: (() -> CFTimeInterval)!
+    var durationOffsetSetter: (() -> CFTimeInterval)!
     var scrollingDirectionSetter: (() -> ScrollingDirection)!
     var inverseSequenceSetter: (() -> Bool)!
     private var scrollableColumns: [ScrollableColumn] = []
@@ -208,6 +211,7 @@ class SHNumbersScrollAnimatedView: UIView {
 
     private func commonInit() {
         timeOffsetSetter = SHNumbersScrollAnimatedView.randomTimeOffsetSetter
+        durationOffsetSetter = SHNumbersScrollAnimatedView.randomTimeOffsetSetter
         scrollingDirectionSetter = SHNumbersScrollAnimatedView.randomDirection
         inverseSequenceSetter = SHNumbersScrollAnimatedView.randomInverse
     }
@@ -247,8 +251,9 @@ class SHNumbersScrollAnimatedView: UIView {
     fileprivate func createAnimations() {
         scrollableColumns.forEach {
             $0.createAnimation(
-                duration: animationDuration,
                 timeOffset: timeOffsetSetter(),
+                duration: animationDuration,
+                durationOffset: durationOffsetSetter(),
                 scrollingDirection: scrollingDirectionSetter(),
                 inverseSequence: inverseSequenceSetter())
         }
@@ -270,8 +275,8 @@ extension SHNumbersScrollAnimatedView {
     }
 
     static func randomInverse() -> Bool {
-        let randomValue = arc4random_uniform(10)
-        if  randomValue < 4  {
+        let randomValue = arc4random_uniform(3)
+        if  randomValue == 0 {
             return true
         } else {
             return false
