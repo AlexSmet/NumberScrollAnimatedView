@@ -21,7 +21,7 @@ class ScrollableColumn {
     }
 
     var duration: CFTimeInterval = 5
-    var durationOffset: CFTimeInterval = 0.2
+    var timeOffset: CFTimeInterval = 0.2
     var scrollingDirection: ScrollingDirection = .down
     var inverseSequence: Bool = false
 
@@ -164,28 +164,47 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 
     fileprivate func createAnimations() {
-        var offset: CFTimeInterval = 0
-
-        for column in scrollableColumns {
-            let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
-            animation.duration = column.duration //duration + offset
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-
-            let startOffsetY =  column.scrollLayer.frame.height
-            switch column.scrollingDirection {
-            case .down:
-                let maxY: CGFloat = (column.scrollLayer.sublayers?.last?.frame.origin.y)!
-                animation.fromValue = -maxY - startOffsetY
-            case .up:
-                let minY: CGFloat = (column.scrollLayer.sublayers?.first?.frame.origin.y)!
-                animation.fromValue = -minY + startOffsetY
-            }
-            animation.toValue = 0
-
-            column.scrollLayer.add(animation, forKey: animationKey)
-
-            offset += column.durationOffset
+        for column in scrollableColumns.sorted(by: { $0.timeOffset > $1.timeOffset }) {
+            createBeginAnimationForColumn(column)
+            createMainAnimationForColumn(column)
         }
+    }
+
+    fileprivate func createBeginAnimationForColumn(_ column: ScrollableColumn) {
+        let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
+        animation.duration = column.timeOffset
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.fromValue = getStartPositionYForAnimation(column: column)
+        animation.toValue = (animation.fromValue as! CGFloat)
+
+        column.scrollLayer.add(animation, forKey: animationKey + ".clearing")
+    }
+
+    fileprivate func createMainAnimationForColumn(_ column: ScrollableColumn) {
+        let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
+        animation.beginTime = CACurrentMediaTime() + column.timeOffset
+        animation.duration = column.duration
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.fromValue = getStartPositionYForAnimation(column: column)
+        animation.toValue = 0
+
+        column.scrollLayer.add(animation, forKey: animationKey)
+    }
+
+    fileprivate func getStartPositionYForAnimation(column : ScrollableColumn) -> CGFloat {
+        var result: CGFloat
+
+        let startOffsetY =  column.scrollLayer.frame.height
+        switch column.scrollingDirection {
+        case .down:
+            let maxY: CGFloat = (column.scrollLayer.sublayers?.last?.frame.origin.y)!
+            result  = -maxY - startOffsetY
+        case .up:
+            let minY: CGFloat = (column.scrollLayer.sublayers?.first?.frame.origin.y)!
+            result = -minY + startOffsetY
+        }
+
+        return result
     }
 }
 
