@@ -19,10 +19,10 @@ class SHNumbersScrollAnimatedView: UIView {
     public var textColor: UIColor = .black
     public var animationDuration: CFTimeInterval = 5
 
-    var timeOffsetSetter: (() -> CFTimeInterval)!
-    var durationOffsetSetter: (() -> CFTimeInterval)!
-    var scrollingDirectionSetter: (() -> ScrollingDirection)!
-    var inverseSequenceSetter: (() -> Bool)!
+    var timeOffsetRule: ((_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval)!
+    var durationOffsetRule: ((_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval)!
+    var scrollingDirectionRule: ((_ scrollableValue: String, _ forColumn: Int) -> ScrollingDirection)!
+    var inverseSequenceRule: ((_ scrollableValue: String, _ forColumn: Int) -> Bool)!
 
     private var scrollableColumns: [ScrollableColumn] = []
 
@@ -37,10 +37,10 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 
     private func commonInit() {
-        timeOffsetSetter = SHNumbersScrollAnimatedView.randomTimeOffsetSetter
-        durationOffsetSetter = SHNumbersScrollAnimatedView.randomTimeOffsetSetter
-        scrollingDirectionSetter = SHNumbersScrollAnimatedView.randomDirection
-        inverseSequenceSetter = SHNumbersScrollAnimatedView.randomInverse
+        timeOffsetRule = SHNumbersScrollAnimatedView.randomTimeOffsetSetter
+        durationOffsetRule = SHNumbersScrollAnimatedView.randomTimeOffsetSetter
+        scrollingDirectionRule = SHNumbersScrollAnimatedView.randomDirection
+        inverseSequenceRule = SHNumbersScrollAnimatedView.randomInverse
     }
 
     public func setValue(_ value: Int, animated: Bool) {
@@ -89,24 +89,24 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 
     fileprivate func createAnimations() {
-        scrollableColumns.forEach {
-            $0.createAnimation(
-                timeOffset: timeOffsetSetter(),
+        for (index, column) in scrollableColumns.enumerated() {
+            column.createAnimation(
+                timeOffset: timeOffsetRule(value, index),
                 duration: animationDuration,
-                durationOffset: durationOffsetSetter(),
-                scrollingDirection: scrollingDirectionSetter(),
-                inverseSequence: inverseSequenceSetter())
+                durationOffset: durationOffsetRule(value, index),
+                scrollingDirection: scrollingDirectionRule(value, index),
+                inverseSequence: inverseSequenceRule(value, index))
         }
     }
 }
 
 extension SHNumbersScrollAnimatedView {
 
-    static func randomTimeOffsetSetter() -> CFTimeInterval {
+    static func randomTimeOffsetSetter(_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval {
         return drand48()
     }
 
-    static func randomDirection() -> ScrollingDirection {
+    static func randomDirection(_ scrollableValue: String, _ forColumn: Int) -> ScrollingDirection {
         if arc4random_uniform(2) == 0 {
             return .down
         } else {
@@ -114,7 +114,7 @@ extension SHNumbersScrollAnimatedView {
         }
     }
 
-    static func randomInverse() -> Bool {
+    static func randomInverse(_ scrollableValue: String, _ forColumn: Int) -> Bool {
         let randomValue = arc4random_uniform(2)
         if  randomValue == 0 {
             return true
