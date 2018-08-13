@@ -29,6 +29,14 @@ animatedView.value = "220-548"
 animatedView.startAnimation()
 ```
 
+Animation parameters
+---
+- `animationDuration`
+- `timeOffsetRule`
+- `durationOffsetRule`
+- `scrollingDirectionRule`
+- `inverseSequenceRule`
+
 Animation examples
 ---
 1. By default. All animation parameters are random.
