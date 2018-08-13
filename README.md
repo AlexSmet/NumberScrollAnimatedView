@@ -1,6 +1,8 @@
 # SHNumbersScrollAnimatedView
 View for displaying string with scroll animation for each digital symbol.
 
+![All random](https://user-images.githubusercontent.com/25868364/44022574-b0e17484-9ef0-11e8-8db7-3af063917cc4.gif)
+
 Inspired by [JTNumberScrollAnimatedView](https://github.com/jonathantribouharet/JTNumberScrollAnimatedView)
 
 Usage
