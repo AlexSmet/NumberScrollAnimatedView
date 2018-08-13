@@ -43,7 +43,7 @@ Animation examples
 
 ![All random](https://user-images.githubusercontent.com/25868364/44025841-e314b52a-9ef9-11e8-98e1-fa3dd7ec95a3.gif)
 
-2. Scrolling direstion is down.
+2. Scrolling direction is down.
 ```swift
 animatedView.scrollingDirectionRule = { (_, _) in return .down }
 ```
