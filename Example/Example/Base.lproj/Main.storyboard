@@ -19,15 +19,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="umB-Yw-0ul" customClass="SHNumbersScrollAnimatedView" customModule="Example" customModuleProvider="target">
-                                <rect key="frame" x="37" y="105" width="300" height="80"/>
+                                <rect key="frame" x="37" y="105" width="300" height="100"/>
                                 <color key="backgroundColor" red="1" green="0.1857388616" blue="0.57339501380000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="OtM-gJ-moO"/>
+                                    <constraint firstAttribute="height" constant="100" id="OtM-gJ-moO"/>
                                     <constraint firstAttribute="width" constant="300" id="rEI-oG-7Sl"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLa-Rt-q1c">
-                                <rect key="frame" x="137" y="264" width="100" height="30"/>
+                                <rect key="frame" x="137" y="284" width="100" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="5iB-DD-Plc"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="aaA-m8-aPl"/>
@@ -40,6 +40,13 @@
                                     <action selector="onPushButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jFF-q5-wZs"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dcF-FT-vKh">
+                                <rect key="frame" x="151" y="445" width="42" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>

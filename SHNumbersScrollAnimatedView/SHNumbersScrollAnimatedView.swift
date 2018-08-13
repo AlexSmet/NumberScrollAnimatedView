@@ -17,7 +17,7 @@ enum ScrollingDirection {
 }
 
 class ScrollableColumn {
-    var symbol: Character = Character("0")
+    var symbol: Character!
     private var font: UIFont
     private var textColor: UIColor
     var timeOffset: CFTimeInterval = 0
@@ -26,7 +26,6 @@ class ScrollableColumn {
     var scrollingDirection: ScrollingDirection = .down
     var inverseSequence: Bool = false
 
-    let animationKey = "NumbersScrollAnimated"
     fileprivate var scrollLayer: CAScrollLayer
     private var digitCharacter: Character!
 
@@ -62,7 +61,7 @@ class ScrollableColumn {
         animation.fromValue = getStartPositionYForAnimation()
         animation.toValue = (animation.fromValue as! CGFloat)
 
-        scrollLayer.add(animation, forKey: animationKey + ".clearing")
+        scrollLayer.add(animation, forKey: nil)
     }
 
     private func addMainAnimation() {
@@ -73,7 +72,7 @@ class ScrollableColumn {
         animation.fromValue = getStartPositionYForAnimation()
         animation.toValue = 0
 
-        scrollLayer.add(animation, forKey: animationKey)
+        scrollLayer.add(animation, forKey: nil)
     }
 
     private func getStartPositionYForAnimation() -> CGFloat {
@@ -171,14 +170,16 @@ class ScrollableColumn {
         }
     }
 
-    private func createTextLayer(withText: String) -> CATextLayer {
-        let newLayer = CATextLayer()
-
-        newLayer.font = font
-        newLayer.fontSize = font.pointSize
-        newLayer.foregroundColor = textColor.cgColor
+    private func createTextLayer(withText: String) -> SHTextLayer {
+        let newLayer = SHTextLayer()
+        let attributedString = NSAttributedString(
+            string: withText,
+            attributes: [
+                NSAttributedStringKey.foregroundColor: textColor.cgColor,
+                NSAttributedStringKey.font: font
+            ])
         newLayer.alignmentMode = kCAAlignmentCenter
-        newLayer.string = withText
+        newLayer.string = attributedString
 
         return newLayer
     }
@@ -277,6 +278,21 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 }
 
+class SHTextLayer: CATextLayer {
+    override open func draw(in ctx: CGContext) {
+        if let attributedString = self.string as? NSAttributedString {
+            let height = self.bounds.size.height
+            let stringSize = attributedString.size()
+            let yDiff = (height - stringSize.height) / 2
+
+            ctx.saveGState()
+            ctx.translateBy(x: 0.0, y: yDiff)
+            super.draw(in: ctx)
+            ctx.restoreGState()
+        }
+    }
+}
+
 extension SHNumbersScrollAnimatedView {
 
     static func randomTimeOffsetSetter() -> CFTimeInterval {
@@ -302,10 +318,18 @@ extension SHNumbersScrollAnimatedView {
 }
 
 extension String {
-    func width(usingFont font: UIFont) -> CGFloat {
+    func size(usingFont font: UIFont) -> CGSize {
         let fontAttributes = [NSAttributedStringKey.font: font]
         let size = self.size(withAttributes: fontAttributes)
-        return size.width
+        return size
+    }
+
+    func width(usingFont font: UIFont) -> CGFloat {
+        return size(usingFont: font).width
+    }
+
+    func height(usingFont font: UIFont) -> CGFloat {
+        return size(usingFont: font).height
     }
 
     static func numericSymbolsMaxWidth(usingFont font: UIFont) -> CGFloat {

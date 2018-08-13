@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onPushButton(_ sender: UIButton) {
-        animatedView.value = "220-548"
+        animatedView.value = "279-548"
         animatedView.animationDuration = 5
 //        animatedView.scrollingDirectionSetter = { return ScrollingDirection.down }
 //        animatedView.inverseSequenceSetter = { return false }
