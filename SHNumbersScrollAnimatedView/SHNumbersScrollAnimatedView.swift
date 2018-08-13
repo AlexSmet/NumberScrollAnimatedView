@@ -17,17 +17,13 @@ class SHNumbersScrollAnimatedView: UIView {
 
     public var font: UIFont = UIFont.systemFont(ofSize: UIFont.systemFontSize)
     public var textColor: UIColor = .black
-
-    public var animationDuration: CFTimeInterval = 5 {
-        didSet {
-            scrollableColumns.forEach { $0.duration = animationDuration }
-        }
-    }
+    public var animationDuration: CFTimeInterval = 5
 
     var timeOffsetSetter: (() -> CFTimeInterval)!
     var durationOffsetSetter: (() -> CFTimeInterval)!
     var scrollingDirectionSetter: (() -> ScrollingDirection)!
     var inverseSequenceSetter: (() -> Bool)!
+
     private var scrollableColumns: [ScrollableColumn] = []
 
     override init(frame: CGRect) {
@@ -111,7 +107,7 @@ extension SHNumbersScrollAnimatedView {
     }
 
     static func randomDirection() -> ScrollingDirection {
-        if arc4random_uniform(3) == 0 {
+        if arc4random_uniform(2) == 0 {
             return .down
         } else {
             return .up
@@ -119,7 +115,7 @@ extension SHNumbersScrollAnimatedView {
     }
 
     static func randomInverse() -> Bool {
-        let randomValue = arc4random_uniform(3)
+        let randomValue = arc4random_uniform(2)
         if  randomValue == 0 {
             return true
         } else {

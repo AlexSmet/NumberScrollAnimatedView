@@ -1,6 +1,6 @@
 //
 //  String+Extension.swift
-//  Example
+//
 //
 //  Created by Alexander Smetannikov on 13/08/2018.
 //  Copyright © 2018 Alexander Smetannikov. All rights reserved.

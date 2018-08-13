@@ -1,6 +1,6 @@
 //
 //  ScrollableColumn.swift
-//  Example
+//
 //
 //  Created by Alexander Smetannikov on 13/08/2018.
 //  Copyright © 2018 Alexander Smetannikov. All rights reserved.
@@ -14,9 +14,11 @@ enum ScrollingDirection {
 }
 
 class ScrollableColumn {
-    var symbol: Character!
     private var font: UIFont
     private var textColor: UIColor
+
+    var symbol: Character!
+
     var timeOffset: CFTimeInterval = 0
     var duration: CFTimeInterval = 5
     var durationOffset: CFTimeInterval = 0
@@ -24,7 +26,6 @@ class ScrollableColumn {
     var inverseSequence: Bool = false
 
     var scrollLayer: CAScrollLayer
-    private var digitCharacter: Character!
 
     init(withFrame frame: CGRect, forLayer superLayer: CALayer, font: UIFont, textColor: UIColor) {
         self.font = font
