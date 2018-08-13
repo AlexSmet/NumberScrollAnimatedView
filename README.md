@@ -1,8 +1,32 @@
 # SHNumbersScrollAnimatedView
-View for displaying integer numbers with scroll animation for each digit.
+View for displaying string with scroll animation for each digital symbol.
 
 Inspired by [JTNumberScrollAnimatedView](https://github.com/jonathantribouharet/JTNumberScrollAnimatedView)
 
+Usage
+---
+```swift
+let animatedView = SHNumbersScrollAnimatedView()
+
+// Add to superview, configure view constraints etc...
+
+// Customize a view properties like background color, font size and color
+animatedView.backgroundColor = UIColor(red: 255/255, green: 47/255, blue: 146/255, alpha: 1)
+animatedView.font = UIFont.boldSystemFont(ofSize: 64)
+animatedView.textColor = .white
+
+// Set or change animation properties
+animatedView.animationDuration = 5
+animatedView.animationDuration = 5
+animatedView.scrollingDirectionRule = { (_, _) in return .up }
+
+// Set a value which will be displayed
+animatedView.value = "220-548"
+
+// Start animation
+animatedView.startAnimation()
+```
+        
 All animation parameters are random (by default).
 
 ![All random](https://user-images.githubusercontent.com/25868364/44022574-b0e17484-9ef0-11e8-8db7-3af063917cc4.gif)
