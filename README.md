@@ -1,7 +1,7 @@
 # SHNumbersScrollAnimatedView
 View for displaying string with scroll animation for each digital symbol. Inspired by [JTNumberScrollAnimatedView](https://github.com/jonathantribouharet/JTNumberScrollAnimatedView)
 
-![All random](https://user-images.githubusercontent.com/25868364/44022574-b0e17484-9ef0-11e8-8db7-3af063917cc4.gif)
+![All random](https://user-images.githubusercontent.com/25868364/44025841-e314b52a-9ef9-11e8-98e1-fa3dd7ec95a3.gif)
 
 
 
@@ -41,7 +41,7 @@ Animation examples
 ---
 1. By default. All animation parameters are random.
 
-![All random](https://user-images.githubusercontent.com/25868364/44022574-b0e17484-9ef0-11e8-8db7-3af063917cc4.gif)
+![All random](https://user-images.githubusercontent.com/25868364/44025841-e314b52a-9ef9-11e8-98e1-fa3dd7ec95a3.gif)
 
 2. Scrolling direstion is down.
 ```swift
