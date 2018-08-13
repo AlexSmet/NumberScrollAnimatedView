@@ -28,18 +28,20 @@ animatedView.value = "220-548"
 // Start animation
 animatedView.startAnimation()
 ```
-        
-All animation parameters are random (by default).
+
+Animation examples
+---
+1. By default. All animation parameters are random.
 
 ![All random](https://user-images.githubusercontent.com/25868364/44022574-b0e17484-9ef0-11e8-8db7-3af063917cc4.gif)
 
-Scrolling direstion is down, other parameters are random.
+2. Scrolling direstion is down.
 ```swift
 animatedView.scrollingDirectionRule = { (_, _) in return .down }
 ```
 ![Scrolling direction is down](https://user-images.githubusercontent.com/25868364/44022666-ec7c5dce-9ef0-11e8-86ec-a4f8c4dde949.gif)
 
-Scrolling direstion is down, sequense is not inverted, animation duration is same for all columns.
+3. Scrolling direstion is up, sequense is not inverted, animation duration is same for all columns.
 ```swift
 animatedView.scrollingDirectionRule = { (_, _) in return .up }
 animatedView.inverseSequenceRule = { (_, _) in return false }
