@@ -12,21 +12,22 @@
 import UIKit
 
 class SHNumberScrollAnimatedView: UIView {
-
-    public var value: String = ""
+    /// Displayable value, numeric symbols will display with scroll animation
+    public var text: String = ""
 
     public var font: UIFont = UIFont.systemFont(ofSize: UIFont.systemFontSize)
     public var textColor: UIColor = .black
+    /// Animation duration
     public var animationDuration: CFTimeInterval = 5
 
-    var timeOffsetRule: ((_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval)!
-    var durationOffsetRule: ((_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval)!
-    var scrollingDirectionRule: ((_ scrollableValue: String, _ forColumn: Int) -> NumberScrollAnimationDirection)!
-    var inverseSequenceRule: ((_ scrollableValue: String, _ forColumn: Int) -> Bool)!
+    public var animationTimeOffsetRule: ((_ text: String, _ index: Int) -> CFTimeInterval)!
+    public var animationDurationOffsetRule: ((_ text: String, _ index: Int) -> CFTimeInterval)!
+    public var scrollingDirectionRule: ((_ text: String, _ index: Int) -> NumberScrollAnimationDirection)!
+    public var inverseSequenceRule: ((_ scrollableValue: String, _ forColumn: Int) -> Bool)!
 
     private var scrollableColumns: [NumberScrollableColumn] = []
 
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
@@ -37,14 +38,10 @@ class SHNumberScrollAnimatedView: UIView {
     }
 
     private func commonInit() {
-        timeOffsetRule = SHNumberScrollAnimatedView.randomTimeOffsetSetter
-        durationOffsetRule = SHNumberScrollAnimatedView.randomTimeOffsetSetter
+        animationTimeOffsetRule = SHNumberScrollAnimatedView.randomTimeOffsetSetter
+        animationDurationOffsetRule = SHNumberScrollAnimatedView.randomTimeOffsetSetter
         scrollingDirectionRule = SHNumberScrollAnimatedView.randomDirection
         inverseSequenceRule = SHNumberScrollAnimatedView.randomInverse
-    }
-
-    public func setValue(_ value: Int, animated: Bool) {
-
     }
 
     public func startAnimation() {
@@ -69,7 +66,7 @@ class SHNumberScrollAnimatedView: UIView {
         let numericSymbolWidth = String.numericSymbolsMaxWidth(usingFont: font)
         var width: CGFloat
         var xPosition: CGFloat = 0
-        for character in value {
+        for character in text {
             if let _ = Int(String(character)) {
                 width = numericSymbolWidth
             } else {
@@ -91,35 +88,35 @@ class SHNumberScrollAnimatedView: UIView {
     fileprivate func createAnimations() {
         for (index, column) in scrollableColumns.enumerated() {
             column.createAnimation(
-                timeOffset: timeOffsetRule(value, index),
+                timeOffset: animationTimeOffsetRule(text, index),
                 duration: animationDuration,
-                durationOffset: durationOffsetRule(value, index),
-                scrollingDirection: scrollingDirectionRule(value, index),
-                inverseSequence: inverseSequenceRule(value, index))
+                durationOffset: animationDurationOffsetRule(text, index),
+                scrollingDirection: scrollingDirectionRule(text, index),
+                inverseSequence: inverseSequenceRule(text, index))
         }
     }
 }
 
 extension SHNumberScrollAnimatedView {
 
-    static func randomTimeOffsetSetter(_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval {
+    static func random(_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval {
         return drand48()
     }
 
-    static func randomDirection(_ scrollableValue: String, _ forColumn: Int) -> NumberScrollAnimationDirection {
-        if arc4random_uniform(2) == 0 {
-            return .down
-        } else {
-            return .up
-        }
-    }
-
-    static func randomInverse(_ scrollableValue: String, _ forColumn: Int) -> Bool {
+    static func random(_ scrollableValue: String, _ forColumn: Int) -> Bool {
         let randomValue = arc4random_uniform(2)
         if  randomValue == 0 {
             return true
         } else {
             return false
+        }
+    }
+
+    static func random(_ scrollableValue: String, _ forColumn: Int) -> NumberScrollAnimationDirection {
+        if arc4random_uniform(2) == 0 {
+            return .down
+        } else {
+            return .up
         }
     }
 }
