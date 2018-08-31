@@ -21,10 +21,10 @@ class SHNumberScrollAnimatedView: UIView {
 
     var timeOffsetRule: ((_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval)!
     var durationOffsetRule: ((_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval)!
-    var scrollingDirectionRule: ((_ scrollableValue: String, _ forColumn: Int) -> ScrollingDirection)!
+    var scrollingDirectionRule: ((_ scrollableValue: String, _ forColumn: Int) -> NumberScrollAnimationDirection)!
     var inverseSequenceRule: ((_ scrollableValue: String, _ forColumn: Int) -> Bool)!
 
-    private var scrollableColumns: [ScrollableColumn] = []
+    private var scrollableColumns: [NumberScrollableColumn] = []
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -77,7 +77,7 @@ class SHNumberScrollAnimatedView: UIView {
             }
 
             let newColumnFrame = CGRect(x: xPosition , y: 0, width: width, height: height)
-            let newColumn = ScrollableColumn(withFrame: newColumnFrame, forLayer: layer, font: font, textColor: textColor)
+            let newColumn = NumberScrollableColumn(withFrame: newColumnFrame, forLayer: layer, font: font, textColor: textColor)
             newColumn.symbol = character
             scrollableColumns.append(newColumn)
 
@@ -106,7 +106,7 @@ extension SHNumberScrollAnimatedView {
         return drand48()
     }
 
-    static func randomDirection(_ scrollableValue: String, _ forColumn: Int) -> ScrollingDirection {
+    static func randomDirection(_ scrollableValue: String, _ forColumn: Int) -> NumberScrollAnimationDirection {
         if arc4random_uniform(2) == 0 {
             return .down
         } else {

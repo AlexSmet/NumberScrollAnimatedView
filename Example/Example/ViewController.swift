@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     @IBAction func onPushButton(_ sender: UIButton) {
         animatedView.value = "220-548"
         animatedView.animationDuration = 5
-        animatedView.scrollingDirectionRule = { (_, columnIndex) in return (columnIndex % 2) == 0 ? ScrollingDirection.down : ScrollingDirection.up }
+        animatedView.scrollingDirectionRule = { (_, columnIndex) in return (columnIndex % 2) == 0 ? NumberScrollAnimationDirection.down : NumberScrollAnimationDirection.up }
         animatedView.startAnimation()
     }
 }

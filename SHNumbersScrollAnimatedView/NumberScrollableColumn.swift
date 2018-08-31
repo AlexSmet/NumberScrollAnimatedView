@@ -1,5 +1,5 @@
 //
-//  ScrollableColumn.swift
+//  NumberScrollableColumn.swift
 //
 //
 //  Created by Alexander Smetannikov on 13/08/2018.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-enum ScrollingDirection {
+enum NumberScrollAnimationDirection {
     case up
     case down
 }
 
-class ScrollableColumn {
+class NumberScrollableColumn {
     private var font: UIFont
     private var textColor: UIColor
 
@@ -22,7 +22,7 @@ class ScrollableColumn {
     var timeOffset: CFTimeInterval = 0
     var duration: CFTimeInterval = 5
     var durationOffset: CFTimeInterval = 0
-    var scrollingDirection: ScrollingDirection = .down
+    var scrollingDirection: NumberScrollAnimationDirection = .down
     var inverseSequence: Bool = false
 
     var scrollLayer: CAScrollLayer
@@ -36,7 +36,7 @@ class ScrollableColumn {
         superLayer.addSublayer(scrollLayer)
     }
 
-    func createAnimation(timeOffset: CFTimeInterval, duration: CFTimeInterval, durationOffset: CFTimeInterval, scrollingDirection: ScrollingDirection, inverseSequence: Bool = false) {
+    func createAnimation(timeOffset: CFTimeInterval, duration: CFTimeInterval, durationOffset: CFTimeInterval, scrollingDirection: NumberScrollAnimationDirection, inverseSequence: Bool = false) {
         self.timeOffset = timeOffset
         self.duration = duration
         self.durationOffset = durationOffset
