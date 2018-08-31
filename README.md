@@ -19,7 +19,6 @@ animatedView.textColor = .white
 
 // Set or change animation properties
 animatedView.animationDuration = 5
-animatedView.animationDuration = 5
 animatedView.scrollingDirectionRule = { (_, _) in return .up }
 
 // Set a value which will be displayed
@@ -32,8 +31,8 @@ animatedView.startAnimation()
 Animation parameters
 ---
 - `animationDuration`
-- `timeOffsetRule`
-- `durationOffsetRule`
+- `animationTimeOffsetRule`
+- `animationDurationOffsetRule`
 - `scrollingDirectionRule`
 - `inverseSequenceRule`
 
@@ -53,6 +52,6 @@ animatedView.scrollingDirectionRule = { (_, _) in return .down }
 ```swift
 animatedView.scrollingDirectionRule = { (_, _) in return .up }
 animatedView.inverseSequenceRule = { (_, _) in return false }
-animatedView.durationOffsetRule = { (_, _) in return 0 }
+animatedView.animationDurationOffsetRule = { (_, _) in return 0 }
 ```
 ![Scrolling direction is up, sequence don't inverted,  animation duration the same for all columns](https://user-images.githubusercontent.com/25868364/44022675-f3c6981a-9ef0-11e8-8dd0-4b87f429659c.gif)
