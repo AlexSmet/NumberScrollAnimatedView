@@ -1,6 +1,6 @@
 
 //
-//  SHNumbersScrollAnimatedView.swift
+//  SHNumberScrollAnimatedView.swift
 //
 //
 //  Inspired by https://github.com/jonathantribouharet/JTNumberScrollAnimatedView
@@ -11,7 +11,7 @@
 
 import UIKit
 
-class SHNumbersScrollAnimatedView: UIView {
+class SHNumberScrollAnimatedView: UIView {
 
     public var value: String = ""
 
@@ -37,10 +37,10 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 
     private func commonInit() {
-        timeOffsetRule = SHNumbersScrollAnimatedView.randomTimeOffsetSetter
-        durationOffsetRule = SHNumbersScrollAnimatedView.randomTimeOffsetSetter
-        scrollingDirectionRule = SHNumbersScrollAnimatedView.randomDirection
-        inverseSequenceRule = SHNumbersScrollAnimatedView.randomInverse
+        timeOffsetRule = SHNumberScrollAnimatedView.randomTimeOffsetSetter
+        durationOffsetRule = SHNumberScrollAnimatedView.randomTimeOffsetSetter
+        scrollingDirectionRule = SHNumberScrollAnimatedView.randomDirection
+        inverseSequenceRule = SHNumberScrollAnimatedView.randomInverse
     }
 
     public func setValue(_ value: Int, animated: Bool) {
@@ -100,7 +100,7 @@ class SHNumbersScrollAnimatedView: UIView {
     }
 }
 
-extension SHNumbersScrollAnimatedView {
+extension SHNumberScrollAnimatedView {
 
     static func randomTimeOffsetSetter(_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval {
         return drand48()

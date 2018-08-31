@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		552A8537211AC4A800CD2C2A /* SHNumbersScrollAnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552A8536211AC4A800CD2C2A /* SHNumbersScrollAnimatedView.swift */; };
+		552A8537211AC4A800CD2C2A /* SHNumberScrollAnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552A8536211AC4A800CD2C2A /* SHNumberScrollAnimatedView.swift */; };
 		558631B521215BE600F0A34F /* ScrollableColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558631B421215BE600F0A34F /* ScrollableColumn.swift */; };
 		558631B721215E9300F0A34F /* VerticallyCenteredTextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558631B621215E9300F0A34F /* VerticallyCenteredTextLayer.swift */; };
 		558631B921215ED300F0A34F /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558631B821215ED300F0A34F /* String+Extension.swift */; };
@@ -19,7 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		552A8536211AC4A800CD2C2A /* SHNumbersScrollAnimatedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SHNumbersScrollAnimatedView.swift; path = ../SHNumbersScrollAnimatedView/SHNumbersScrollAnimatedView.swift; sourceTree = SOURCE_ROOT; };
+		552A8536211AC4A800CD2C2A /* SHNumberScrollAnimatedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SHNumberScrollAnimatedView.swift; path = ../SHNumbersScrollAnimatedView/SHNumberScrollAnimatedView.swift; sourceTree = SOURCE_ROOT; };
 		558631B421215BE600F0A34F /* ScrollableColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScrollableColumn.swift; path = ../SHNumbersScrollAnimatedView/ScrollableColumn.swift; sourceTree = "<group>"; };
 		558631B621215E9300F0A34F /* VerticallyCenteredTextLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VerticallyCenteredTextLayer.swift; path = ../SHNumbersScrollAnimatedView/VerticallyCenteredTextLayer.swift; sourceTree = "<group>"; };
 		558631B821215ED300F0A34F /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "String+Extension.swift"; path = "../SHNumbersScrollAnimatedView/String+Extension.swift"; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		55E9B6952119EE0B006F2770 /* SHNumberScrollAnimatedView */ = {
 			isa = PBXGroup;
 			children = (
-				552A8536211AC4A800CD2C2A /* SHNumbersScrollAnimatedView.swift */,
+				552A8536211AC4A800CD2C2A /* SHNumberScrollAnimatedView.swift */,
 				558631B821215ED300F0A34F /* String+Extension.swift */,
 				558631B621215E9300F0A34F /* VerticallyCenteredTextLayer.swift */,
 				558631B421215BE600F0A34F /* ScrollableColumn.swift */,
@@ -160,7 +160,7 @@
 				55E9B6822119ED6C006F2770 /* AppDelegate.swift in Sources */,
 				558631B521215BE600F0A34F /* ScrollableColumn.swift in Sources */,
 				558631B921215ED300F0A34F /* String+Extension.swift in Sources */,
-				552A8537211AC4A800CD2C2A /* SHNumbersScrollAnimatedView.swift in Sources */,
+				552A8537211AC4A800CD2C2A /* SHNumberScrollAnimatedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

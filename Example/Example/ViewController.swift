@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var animatedView: SHNumbersScrollAnimatedView!
+    @IBOutlet weak var animatedView: SHNumberScrollAnimatedView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
