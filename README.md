@@ -1,5 +1,5 @@
 # NumberScrollAnimatedView
-View for displaying string with scroll animation for each numerical symbol.
+Component for displaying string with scroll animation for each numerical symbol.
 
 ![All random](https://user-images.githubusercontent.com/25868364/44025841-e314b52a-9ef9-11e8-98e1-fa3dd7ec95a3.gif)
 
