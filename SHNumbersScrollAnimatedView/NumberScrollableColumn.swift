@@ -65,7 +65,7 @@ class NumberScrollableColumn {
     private func addMainAnimation() {
         let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
         animation.beginTime = CACurrentMediaTime() + timeOffset
-        animation.duration = duration - durationOffset
+        animation.duration = duration - timeOffset - durationOffset
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         animation.fromValue = getStartPositionYForAnimation()
         animation.toValue = 0
