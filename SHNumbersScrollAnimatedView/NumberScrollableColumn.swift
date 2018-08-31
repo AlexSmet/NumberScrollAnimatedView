@@ -182,3 +182,19 @@ class NumberScrollableColumn {
         return newLayer
     }
 }
+
+
+private class VerticallyCenteredTextLayer: CATextLayer {
+    override open func draw(in ctx: CGContext) {
+        if let attributedString = self.string as? NSAttributedString {
+            let height = self.bounds.size.height
+            let stringSize = attributedString.size()
+            let yDiff = (height - stringSize.height) / 2
+
+            ctx.saveGState()
+            ctx.translateBy(x: 0.0, y: yDiff)
+            super.draw(in: ctx)
+            ctx.restoreGState()
+        }
+    }
+}
