@@ -34,7 +34,7 @@ class SHNumberScrollAnimatedView: UIView {
     */
     public var animationTimeOffsetRule: ((_ text: String, _ index: Int) -> CFTimeInterval)!
     /**
-     Custom rule specifies the change in animation duration for each numerical symbol
+     Custom rule specifies the change in animation duration for each numerical symbol.
      By default the rule return random values from 0 to 1.
 
      Parameters:
@@ -47,8 +47,7 @@ class SHNumberScrollAnimatedView: UIView {
     */
     public var animationDurationOffsetRule: ((_ text: String, _ index: Int) -> CFTimeInterval)!
     /**
-     Custom rule specifies the animation direction (UP or DOWN) for each numerical symbol
-     Позволяет задать функцию которая определяет направление анимации каждого символа, вверх (.up) или вниз (.down).
+     Custom rule specifies the animation direction (UP or DOWN) for each numerical symbol.
      By default the rule return random values.
 
      Parameters:
