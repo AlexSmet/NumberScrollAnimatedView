@@ -22,7 +22,7 @@ animatedView.animationDuration = 5
 animatedView.scrollingDirectionRule = { (_, columnIndex) in return (columnIndex % 2) == 0 ? .down : .up }
 
 // Set a value which will be displayed
-animatedView.value = "220-548"
+animatedView.text = "220-548"
 
 // Start animation
 animatedView.startAnimation()
@@ -31,10 +31,10 @@ animatedView.startAnimation()
 Animation parameters
 ---
 - `animationDuration`
-- `animationTimeOffsetRule`
-- `animationDurationOffsetRule`
-- `scrollingDirectionRule`
-- `inverseSequenceRule`
+- `animationTimeOffsetRule`, specifies the offset of the animation start time for each numerical symbol. By default the function return random values from 0 to 1.
+- `animationDurationOffsetRule`, specifies the change in animation duration for each numerical symbol. By default the function return random values from 0 to 1.
+- `scrollingDirectionRule`, specifies the animation direction (UP or DOWN) for each numerical symbol. By default the rule return random values.
+- `inverseSequenceRule`, specifies whether to invert the sequence of numbers or not. By default is 0123456789, with inversion 9876543210
 
 Animation examples
 ---
