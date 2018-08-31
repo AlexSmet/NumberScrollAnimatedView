@@ -1,6 +1,6 @@
 
 //
-//  SHNumberScrollAnimatedView.swift
+//  NumberScrollAnimatedView.swift
 //
 //
 //  Inspired by https://github.com/jonathantribouharet/JTNumberScrollAnimatedView
@@ -11,7 +11,7 @@
 
 import UIKit
 
-class SHNumberScrollAnimatedView: UIView {
+class NumberScrollAnimatedView: UIView {
     /// Displayable value, numeric symbols will display with scroll animation
     public var text: String = ""
 
@@ -86,10 +86,10 @@ class SHNumberScrollAnimatedView: UIView {
     }
 
     private func commonInit() {
-        animationTimeOffsetRule = SHNumberScrollAnimatedView.random
-        animationDurationOffsetRule = SHNumberScrollAnimatedView.random
-        scrollingDirectionRule = SHNumberScrollAnimatedView.random
-        inverseSequenceRule = SHNumberScrollAnimatedView.random
+        animationTimeOffsetRule = NumberScrollAnimatedView.random
+        animationDurationOffsetRule = NumberScrollAnimatedView.random
+        scrollingDirectionRule = NumberScrollAnimatedView.random
+        inverseSequenceRule = NumberScrollAnimatedView.random
     }
 
     public func startAnimation() {
@@ -145,7 +145,7 @@ class SHNumberScrollAnimatedView: UIView {
     }
 }
 
-extension SHNumberScrollAnimatedView {
+extension NumberScrollAnimatedView {
 
     static func random(_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval {
         return drand48()
