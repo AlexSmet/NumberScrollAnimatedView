@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		552A8537211AC4A800CD2C2A /* NumberScrollAnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552A8536211AC4A800CD2C2A /* NumberScrollAnimatedView.swift */; };
-		558631B521215BE600F0A34F /* NumberScrollableColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558631B421215BE600F0A34F /* NumberScrollableColumn.swift */; };
+		55BE6A0121396B74003D2B40 /* NumberScrollableColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BE69FF21396B74003D2B40 /* NumberScrollableColumn.swift */; };
+		55BE6A0221396B74003D2B40 /* NumberScrollAnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BE6A0021396B74003D2B40 /* NumberScrollAnimatedView.swift */; };
 		55E9B6822119ED6C006F2770 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9B6812119ED6C006F2770 /* AppDelegate.swift */; };
 		55E9B6842119ED6C006F2770 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9B6832119ED6C006F2770 /* ViewController.swift */; };
 		55E9B6872119ED6C006F2770 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55E9B6852119ED6C006F2770 /* Main.storyboard */; };
@@ -17,8 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		552A8536211AC4A800CD2C2A /* NumberScrollAnimatedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberScrollAnimatedView.swift; path = ../SHNumbersScrollAnimatedView/NumberScrollAnimatedView.swift; sourceTree = SOURCE_ROOT; };
-		558631B421215BE600F0A34F /* NumberScrollableColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NumberScrollableColumn.swift; path = ../SHNumbersScrollAnimatedView/NumberScrollableColumn.swift; sourceTree = "<group>"; };
+		55BE69FF21396B74003D2B40 /* NumberScrollableColumn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberScrollableColumn.swift; path = ../NumbersScrollAnimatedView/NumberScrollableColumn.swift; sourceTree = "<group>"; };
+		55BE6A0021396B74003D2B40 /* NumberScrollAnimatedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberScrollAnimatedView.swift; path = ../NumbersScrollAnimatedView/NumberScrollAnimatedView.swift; sourceTree = "<group>"; };
 		55E9B67E2119ED6C006F2770 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55E9B6812119ED6C006F2770 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55E9B6832119ED6C006F2770 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -42,7 +42,7 @@
 		55E9B6752119ED6C006F2770 = {
 			isa = PBXGroup;
 			children = (
-				55E9B6952119EE0B006F2770 /* SHNumberScrollAnimatedView */,
+				55E9B6952119EE0B006F2770 /* NumberScrollAnimatedView */,
 				55E9B6802119ED6C006F2770 /* Example */,
 				55E9B67F2119ED6C006F2770 /* Products */,
 			);
@@ -69,13 +69,13 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
-		55E9B6952119EE0B006F2770 /* SHNumberScrollAnimatedView */ = {
+		55E9B6952119EE0B006F2770 /* NumberScrollAnimatedView */ = {
 			isa = PBXGroup;
 			children = (
-				552A8536211AC4A800CD2C2A /* NumberScrollAnimatedView.swift */,
-				558631B421215BE600F0A34F /* NumberScrollableColumn.swift */,
+				55BE69FF21396B74003D2B40 /* NumberScrollableColumn.swift */,
+				55BE6A0021396B74003D2B40 /* NumberScrollAnimatedView.swift */,
 			);
-			name = SHNumberScrollAnimatedView;
+			name = NumberScrollAnimatedView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,9 +150,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				55E9B6842119ED6C006F2770 /* ViewController.swift in Sources */,
+				55BE6A0121396B74003D2B40 /* NumberScrollableColumn.swift in Sources */,
 				55E9B6822119ED6C006F2770 /* AppDelegate.swift in Sources */,
-				558631B521215BE600F0A34F /* NumberScrollableColumn.swift in Sources */,
-				552A8537211AC4A800CD2C2A /* NumberScrollAnimatedView.swift in Sources */,
+				55BE6A0221396B74003D2B40 /* NumberScrollAnimatedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
