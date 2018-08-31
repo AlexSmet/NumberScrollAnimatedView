@@ -8,7 +8,7 @@ View for displaying string with scroll animation for each numerical symbol. Insp
 Usage
 ---
 ```swift
-let animatedView = SHNumbersScrollAnimatedView()
+let animatedView = SHNumberScrollAnimatedView()
 
 // Add to superview, configure view constraints etc...
 
@@ -19,7 +19,7 @@ animatedView.textColor = .white
 
 // Set or change animation properties
 animatedView.animationDuration = 5
-animatedView.scrollingDirectionRule = { (_, _) in return .up }
+animatedView.scrollingDirectionRule = { (_, columnIndex) in return (columnIndex % 2) == 0 ? .down : .up }
 
 // Set a value which will be displayed
 animatedView.value = "220-548"
