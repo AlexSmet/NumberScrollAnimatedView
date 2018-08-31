@@ -11,7 +11,7 @@
 
 import UIKit
 
-class NumberScrollAnimatedView: UIView {
+public class NumberScrollAnimatedView: UIView {
     /// Displayable value, numeric symbols will display with scroll animation
     public var text: String = ""
 
@@ -80,7 +80,7 @@ class NumberScrollAnimatedView: UIView {
         commonInit()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
