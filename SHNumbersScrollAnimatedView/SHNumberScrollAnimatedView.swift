@@ -20,9 +20,58 @@ class SHNumberScrollAnimatedView: UIView {
     /// Animation duration
     public var animationDuration: CFTimeInterval = 5
 
+    /**
+     Custom rule specifies the offset of the animation start time for each numerical symbol.
+     By default the rule return random values from 0 to 1.
+
+     Parameters:
+
+     **text**: displayable text
+
+     **index**: symbol's index for which the rule will be applied
+
+     Return an animation time offset for each symbol.
+    */
     public var animationTimeOffsetRule: ((_ text: String, _ index: Int) -> CFTimeInterval)!
+    /**
+     Custom rule specifies the change in animation duration for each numerical symbol
+     By default the rule return random values from 0 to 1.
+
+     Parameters:
+
+     **text**: displayable text
+
+     **index**: symbol's index for which the rule will be applied
+
+     Return an animation duration time offset for each symbol.
+    */
     public var animationDurationOffsetRule: ((_ text: String, _ index: Int) -> CFTimeInterval)!
+    /**
+     Custom rule specifies the animation direction (UP or DOWN) for each numerical symbol
+     Позволяет задать функцию которая определяет направление анимации каждого символа, вверх (.up) или вниз (.down).
+     By default the rule return random values.
+
+     Parameters:
+
+     **text**: displayable text
+
+     **index**: symbol's index for which the rule will be applied
+
+     Return an animation direction for each symbol.
+    */
     public var scrollingDirectionRule: ((_ text: String, _ index: Int) -> NumberScrollAnimationDirection)!
+    /**
+     Custom rule specifies whether to invert the sequence of numbers or not.
+     By default is 0123456789, with inversion 9876543210
+
+     Parameters:
+
+     **text**: displayable text
+
+     **index**: symbol's index for which the rule will be applied
+
+     Return bool-value
+    */
     public var inverseSequenceRule: ((_ scrollableValue: String, _ forColumn: Int) -> Bool)!
 
     private var scrollableColumns: [NumberScrollableColumn] = []
