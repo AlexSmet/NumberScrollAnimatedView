@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum NumberScrollAnimationDirection {
+public enum NumberScrollAnimationDirection {
     case up
     case down
 }
