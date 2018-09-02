@@ -1,5 +1,5 @@
 # NumberScrollAnimatedView
-Component for displaying string with scroll animation for each numerical symbol.
+Component for displaying string with scroll animation for each numerical symbol. Scrolling directions, animation durations and time offsets can be easily customized.
 
 ![All random](https://user-images.githubusercontent.com/25868364/44025841-e314b52a-9ef9-11e8-98e1-fa3dd7ec95a3.gif)
 
@@ -17,7 +17,7 @@ animatedView.backgroundColor = UIColor(red: 255/255, green: 47/255, blue: 146/25
 animatedView.font = UIFont.boldSystemFont(ofSize: 64)
 animatedView.textColor = .white
 
-// Set or change animation properties
+// Set animation properties
 animatedView.animationDuration = 5
 animatedView.scrollingDirectionRule = { (_, columnIndex) in return (columnIndex % 2) == 0 ? .down : .up }
 
@@ -48,7 +48,7 @@ animatedView.scrollingDirectionRule = { (_, _) in return .down }
 ```
 ![Scrolling direction is down](https://user-images.githubusercontent.com/25868364/44022666-ec7c5dce-9ef0-11e8-86ec-a4f8c4dde949.gif)
 
-3. Scrolling direstion is up, sequense is not inverted, animation duration is same for all columns.
+3. Scrolling direstion is up, sequense is not inverted, animation duration is the same for all columns.
 ```swift
 animatedView.scrollingDirectionRule = { (_, _) in return .up }
 animatedView.inverseSequenceRule = { (_, _) in return false }
