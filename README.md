@@ -48,7 +48,7 @@ animatedView.scrollingDirectionRule = { (_, _) in return .down }
 ```
 ![Scrolling direction is down](https://user-images.githubusercontent.com/25868364/44022666-ec7c5dce-9ef0-11e8-86ec-a4f8c4dde949.gif)
 
-3. Scrolling direstion is up, sequense is not inverted, animation duration is the same for all columns.
+3. Scrolling direction is up, sequence is not inverted, animation duration is the same for all columns.
 ```swift
 animatedView.scrollingDirectionRule = { (_, _) in return .up }
 animatedView.inverseSequenceRule = { (_, _) in return false }
