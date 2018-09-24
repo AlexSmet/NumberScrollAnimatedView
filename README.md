@@ -55,3 +55,6 @@ animatedView.inverseSequenceRule = { (_, _) in return false }
 animatedView.animationDurationOffsetRule = { (_, _) in return 0 }
 ```
 ![Scrolling direction is up, sequence don't inverted,  animation duration the same for all columns](https://user-images.githubusercontent.com/25868364/44022675-f3c6981a-9ef0-11e8-8dd0-4b87f429659c.gif)
+
+## Author
+Created by Alexander Smetannikov (alexsmetdev@gmail.com)
