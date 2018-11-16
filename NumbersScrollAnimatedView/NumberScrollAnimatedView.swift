@@ -89,7 +89,7 @@ public class NumberScrollAnimatedView: UIView {
         animationTimeOffsetRule = NumberScrollAnimatedView.random
         animationDurationOffsetRule = NumberScrollAnimatedView.random
         scrollingDirectionRule = NumberScrollAnimatedView.random
-        inverseSequenceRule = NumberScrollAnimatedView.random
+        inverseSequenceRule = NumberScrollAnimatedView.randomBool
     }
 
     public func startAnimation() {
@@ -151,7 +151,7 @@ extension NumberScrollAnimatedView {
         return drand48()
     }
 
-    static func random(_ scrollableValue: String, _ forColumn: Int) -> Bool {
+    static func randomBool(_ scrollableValue: String, _ forColumn: Int) -> Bool {
         let randomValue = arc4random_uniform(2)
         if  randomValue == 0 {
             return true
@@ -172,8 +172,8 @@ extension NumberScrollAnimatedView {
 
 private extension String {
     func size(usingFont font: UIFont) -> CGSize {
-        let fontAttributes = [NSAttributedStringKey.font: font]
-        let size = self.size(withAttributes: fontAttributes)
+        let fontAttributes = [NSFontAttributeName: font]
+        let size = self.size(attributes: fontAttributes)
         return size
     }
 

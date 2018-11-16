@@ -173,8 +173,8 @@ class NumberScrollableColumn {
         let attributedString = NSAttributedString(
             string: withText,
             attributes: [
-                NSAttributedStringKey.foregroundColor: textColor.cgColor,
-                NSAttributedStringKey.font: font
+                NSForegroundColorAttributeName: textColor.cgColor,
+                NSFontAttributeName: font
             ])
         newLayer.alignmentMode = kCAAlignmentCenter
         newLayer.string = attributedString
