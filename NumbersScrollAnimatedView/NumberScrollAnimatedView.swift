@@ -172,8 +172,17 @@ public class NumberScrollAnimatedView: UIView {
 
 private extension String {
     func size(usingFont font: UIFont) -> CGSize {
+        #if swift(>=4.2)
+        let fontAttributes = [NSAttributedString.Key.font: font]
+        let size = self.size(withAttributes: fontAttributes)
+        #elseif swift(>=4)
+        let fontAttributes = [NSAttributedStringKey.font: font]
+        let size = self.size(withAttributes: fontAttributes)
+        #else
         let fontAttributes = [NSFontAttributeName: font]
         let size = self.size(attributes: fontAttributes)
+        #endif
+        
         return size
     }
 
