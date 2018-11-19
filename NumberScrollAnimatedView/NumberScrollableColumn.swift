@@ -55,10 +55,14 @@ class NumberScrollableColumn {
     private func addBeginAnimation() {
         let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
         animation.duration = timeOffset
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         animation.fromValue = getStartPositionYForAnimation()
         animation.toValue = (animation.fromValue as! CGFloat)
-
+        #if swift(>=4.2)
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        #else
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        #endif
+        
         scrollLayer.add(animation, forKey: nil)
     }
 
@@ -66,10 +70,14 @@ class NumberScrollableColumn {
         let animation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
         animation.beginTime = CACurrentMediaTime() + timeOffset
         animation.duration = duration - timeOffset - durationOffset
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         animation.fromValue = getStartPositionYForAnimation()
         animation.toValue = 0
-
+        #if swift(>=4.2)
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        #else
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        #endif
+        
         scrollLayer.add(animation, forKey: nil)
     }
 
@@ -170,15 +178,20 @@ class NumberScrollableColumn {
 
     private func createTextLayer(withText: String) -> VerticallyCenteredTextLayer {
         let newLayer = VerticallyCenteredTextLayer()
-        let attributedString = NSAttributedString(
-            string: withText,
-            attributes: [
-                NSAttributedStringKey.foregroundColor: textColor.cgColor,
-                NSAttributedStringKey.font: font
-            ])
+        
+        #if swift(>=4.2)
+        let attributedString = NSAttributedString( string: withText, attributes: [ NSAttributedString.Key.foregroundColor: textColor.cgColor, NSAttributedString.Key.font: font])
+        newLayer.alignmentMode = CATextLayerAlignmentMode.center
+        #elseif swift(>=4)
+        let attributedString = NSAttributedString( string: withText, attributes: [ NSAttributedStringKey.foregroundColor: textColor.cgColor, NSAttributedStringKey.font: font])
         newLayer.alignmentMode = kCAAlignmentCenter
+        #else
+        let attributedString = NSAttributedString( string: withText, attributes: [ NSForegroundColorAttributeName: textColor.cgColor, NSFontAttributeName: font])
+        newLayer.alignmentMode = kCAAlignmentCenter
+        #endif
+        
         newLayer.string = attributedString
-
+        
         return newLayer
     }
 }
