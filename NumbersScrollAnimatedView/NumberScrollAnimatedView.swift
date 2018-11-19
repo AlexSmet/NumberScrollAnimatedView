@@ -89,7 +89,7 @@ public class NumberScrollAnimatedView: UIView {
         animationTimeOffsetRule = NumberScrollAnimatedView.random
         animationDurationOffsetRule = NumberScrollAnimatedView.random
         scrollingDirectionRule = NumberScrollAnimatedView.random
-        inverseSequenceRule = NumberScrollAnimatedView.randomBool
+        inverseSequenceRule = NumberScrollAnimatedView.random
     }
 
     public func startAnimation() {
@@ -145,13 +145,13 @@ public class NumberScrollAnimatedView: UIView {
     }
 }
 
-extension NumberScrollAnimatedView {
 
+@nonobjc extension NumberScrollAnimatedView {
     static func random(_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval {
         return drand48()
     }
 
-    static func randomBool(_ scrollableValue: String, _ forColumn: Int) -> Bool {
+    static func random(_ scrollableValue: String, _ forColumn: Int) -> Bool {
         let randomValue = arc4random_uniform(2)
         if  randomValue == 0 {
             return true
