@@ -1,5 +1,5 @@
 # NumberScrollAnimatedView
-Component for displaying string with scroll animation for each numerical symbol. Scrolling directions, animation durations and time offsets can be easily customized.
+Component to display string with scroll animation for each numerical symbol. Scrolling directions, animation durations and time offsets can be easily customized.
 
 Swift 3, Swift 4 and Swift 4.2 are supported.
 
