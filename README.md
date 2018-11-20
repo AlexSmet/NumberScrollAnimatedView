@@ -5,7 +5,27 @@ Swift 3, Swift 4 and Swift 4.2 are supported.
 
 ![All random](https://user-images.githubusercontent.com/25868364/44025841-e314b52a-9ef9-11e8-98e1-fa3dd7ec95a3.gif)
 
+Installation
+---
 
+### CocoaPods
+[CocoaPods](https://cocoapods.org) is the preffered way to add NumberScrollAnimatedView to your project.
+
+Just add following line to your Podfile
+```
+pod 'NumberScrollAnimatedView'
+```
+Then run a `pod install` inside your terminal.
+
+After that you can include NumberScrollAnimatedView wherever you need it with 
+```
+import NumberScrollAnimatedView
+```
+
+### Manually
+If you don't want to use dependency manager, you can add NumberScrollAnimatedView in your project manually. 
+
+You can do it coping "NumberScrollAnimatedView" folder with two files "NumberScrollableColumn.swift" and "NumberScrollAnimatedView.swift"in your project. 
 
 Usage
 ---
