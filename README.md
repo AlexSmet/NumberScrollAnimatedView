@@ -30,7 +30,7 @@ import NumberScrollAnimatedView
 ### Manually
 If you don't want to use dependency manager, you can add NumberScrollAnimatedView in your project manually. 
 
-You can do it coping "NumberScrollAnimatedView" folder with two files "NumberScrollableColumn.swift" and "NumberScrollAnimatedView.swift" in your project. 
+You can do it coping "NumberScrollAnimatedView" folder with two files "NumberScrollableColumn.swift" and "NumberScrollAnimatedView.swift" to your project. 
 
 Usage
 ---
