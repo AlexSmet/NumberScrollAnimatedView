@@ -1,3 +1,8 @@
+[![Cocoapods](https://img.shields.io/cocoapods/v/NumberScrollAnimatedView.svg?style=flat-square)](https://cocoapods.org/pods/NumberScrollAnimatedView)
+[![Platform](https://img.shields.io/badge/platform-ios-lightgrey.svg?style=flat-square)](https://img.shields.io/badge/platform-ios-lightgrey.svg?style=flat-square)
+[![Language](https://img.shields.io/badge/language-swift-orange.svg?style=flat-square)](https://swift.org/about/)
+[![License: MIT](https://img.shields.io/cocoapods/l/NumberScrollAnimatedView.svg?style=flat-square)](http://opensource.org/licenses/MIT)
+
 # NumberScrollAnimatedView
 Component to display string with scroll animation for each numerical symbol. Scrolling directions, animation durations and time offsets can be easily customized.
 
@@ -25,7 +30,7 @@ import NumberScrollAnimatedView
 ### Manually
 If you don't want to use dependency manager, you can add NumberScrollAnimatedView in your project manually. 
 
-You can do it coping "NumberScrollAnimatedView" folder with two files "NumberScrollableColumn.swift" and "NumberScrollAnimatedView.swift"in your project. 
+You can do it coping "NumberScrollAnimatedView" folder with two files "NumberScrollableColumn.swift" and "NumberScrollAnimatedView.swift" in your project. 
 
 Usage
 ---
@@ -53,10 +58,10 @@ animatedView.startAnimation()
 Animation parameters
 ---
 - `animationDuration`
-- `animationTimeOffsetRule`, specifies the offset of the animation start time for each numerical symbol. By default the function return random values from 0 to 1.
-- `animationDurationOffsetRule`, specifies the change in animation duration for each numerical symbol. By default the function return random values from 0 to 1.
-- `scrollingDirectionRule`, specifies the animation direction (UP or DOWN) for each numerical symbol. By default the rule return random values.
-- `inverseSequenceRule`, specifies whether to invert the sequence of numbers or not. By default is 0123456789, with inversion 9876543210
+- `animationTimeOffsetRule`, specifies the offset of the animation start time for each numerical symbol. By default this function return random values from 0 to 1.
+- `animationDurationOffsetRule`, specifies the change in animation duration for each numerical symbol. By default this function return random values from 0 to 1.
+- `scrollingDirectionRule`, specifies the animation direction (UP or DOWN) for each numerical symbol. By default this rule return random values.
+- `inverseSequenceRule`, specifies whether to invert the sequence of numbers or not. Default sequence is 0123456789,  inverted - 9876543210
 
 Animation examples
 ---
