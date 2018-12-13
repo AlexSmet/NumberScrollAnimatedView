@@ -7,6 +7,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT' }
   s.author             = { "Alexander Smetannikov" => "alexsmetdev@gmail.com" }
   s.platform     = :ios, "9.0"
+  s.swift_version = "4.2"
   s.source       = { :git => "https://github.com/AlexSmet/NumberScrollAnimatedView.git", :tag => s.version.to_s}
   s.source_files  = "NumberScrollAnimatedView/*.{swift}"
   # s.requires_arc = true
