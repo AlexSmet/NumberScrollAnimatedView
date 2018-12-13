@@ -107,6 +107,7 @@ class NumberScrollableColumn {
 
     private func createContent(nonNumericalSymbol: Character) {
         let textLayer = createTextLayer(withText: String(nonNumericalSymbol))
+        textLayer.contentsScale = UIScreen.main.scale
         textLayer.frame = CGRect(x: 0, y: 0, width: scrollLayer.frame.width, height: scrollLayer.frame.height)
         scrollLayer.addSublayer(textLayer)
     }
@@ -178,6 +179,7 @@ class NumberScrollableColumn {
 
     private func createTextLayer(withText: String) -> VerticallyCenteredTextLayer {
         let newLayer = VerticallyCenteredTextLayer()
+        newLayer.contentsScale = UIScreen.main.scale
         
         #if swift(>=4.2)
         let attributedString = NSAttributedString( string: withText, attributes: [ NSAttributedString.Key.foregroundColor: textColor.cgColor, NSAttributedString.Key.font: font])
