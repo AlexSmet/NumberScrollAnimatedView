@@ -1,7 +1,7 @@
 [![Cocoapods](https://img.shields.io/cocoapods/v/NumberScrollAnimatedView.svg?style=flat-square)](https://cocoapods.org/pods/NumberScrollAnimatedView)
 [![Platform](https://img.shields.io/badge/platform-ios-lightgrey.svg?style=flat-square)](https://img.shields.io/badge/platform-ios-lightgrey.svg?style=flat-square)
 [![Language](https://img.shields.io/badge/language-swift-orange.svg?style=flat-square)](https://swift.org/about/)
-[![License: MIT](https://img.shields.io/cocoapods/l/NumberScrollAnimatedView.svg?style=flat-square)](http://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
 # NumberScrollAnimatedView
 Component to display string with scroll animation for each numerical symbol. Scrolling directions, animation durations and time offsets can be easily customized.
