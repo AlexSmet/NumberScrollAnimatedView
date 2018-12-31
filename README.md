@@ -4,11 +4,11 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
 # NumberScrollAnimatedView
+![2019](https://user-images.githubusercontent.com/25868364/50560106-63686500-0d0e-11e9-993d-91ab7a8f6a5d.gif)
+
 Component to display string with scroll animation for each numerical symbol. Scrolling directions, animation durations and time offsets can be easily customized.
 
 Swift 3, Swift 4 and Swift 4.2 are supported.
-
-![2019](https://user-images.githubusercontent.com/25868364/50560106-63686500-0d0e-11e9-993d-91ab7a8f6a5d.gif)
 
 ![All random](https://user-images.githubusercontent.com/25868364/44025841-e314b52a-9ef9-11e8-98e1-fa3dd7ec95a3.gif)
 
