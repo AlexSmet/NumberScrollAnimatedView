@@ -8,6 +8,8 @@ Component to display string with scroll animation for each numerical symbol. Scr
 
 Swift 3, Swift 4 and Swift 4.2 are supported.
 
+![2019](https://user-images.githubusercontent.com/25868364/50560106-63686500-0d0e-11e9-993d-91ab7a8f6a5d.gif)
+
 ![All random](https://user-images.githubusercontent.com/25868364/44025841-e314b52a-9ef9-11e8-98e1-fa3dd7ec95a3.gif)
 
 Installation
