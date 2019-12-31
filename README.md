@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
 # NumberScrollAnimatedView
-![2019](https://user-images.githubusercontent.com/25868364/50560106-63686500-0d0e-11e9-993d-91ab7a8f6a5d.gif)
+![Scrolling example](https://user-images.githubusercontent.com/25868364/44020371-5ad5a2aa-9eea-11e8-9d26-5451a60dbc4b.gif)
 
 Component to display string with scroll animation for each numerical symbol. Scrolling directions, animation durations and time offsets can be easily customized.
 
