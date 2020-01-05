@@ -8,7 +8,7 @@
 
 Component to display string with scroll animation for each numerical symbol. Scrolling directions, animation durations and time offsets can be easily customized.
 
-Swift 3, Swift 4 and Swift 4.2 are supported.
+Swift 3, Swift 4 and Swift 5 are supported.
 
 <!-- ![All random](https://user-images.githubusercontent.com/25868364/44025841-e314b52a-9ef9-11e8-98e1-fa3dd7ec95a3.gif) -->
 
